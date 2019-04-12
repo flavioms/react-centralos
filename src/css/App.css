@@ -1,0 +1,26 @@
+.App{
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-template-rows: auto;
+  grid-template-areas: 
+  "aside main"
+  "aside main"
+  "aside main";
+}
+
+.menu-side{
+  grid-area: aside;
+  height: 100vh;
+}
+
+.main-content{
+  grid-area: main;
+  height: 100vh;
+}
+
+.main-content .main-title{
+  font-family: sans-serif;
+  font-size: 1.8em;
+  margin: 2em;
+  color: #333;
+}

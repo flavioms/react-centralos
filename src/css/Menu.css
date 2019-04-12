@@ -1,0 +1,26 @@
+.menu-side{ 
+  background-color: #444;
+  height: 100vh;
+  padding: 1em;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.4)
+}
+
+.menu-side .list li{
+  margin-bottom: 2em;
+}
+
+.menu-side .list a{
+  color: #fff;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.menu-side .list a:hover{
+  color: #777;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+}
