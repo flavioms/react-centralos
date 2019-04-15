@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
-class FormChamado extends Component {
-  constructor(props){
-    super(props)
-  }
+const validations = Yup.object().shape({
+  titulo: Yup.string().required().max(250),
+  categoria: Yup.string().required(),
+  suporte: Yup.string().required(),
+  modulo: Yup.string().required(),
+  totvs: Yup.string().required()
+})
 
+const initialValues = {}
+
+export default class FormChamado extends Component {
+  // eslint-disable-next-line no-useless-constructor
+  constructor (props) {
+    super(props);
+  }
+  
   render(){
     return(
-      <Formik initialValues={this.props.initialValues} onSubmit={this.props.handleSubmit} validationSchema={this.props.validations}>
+      <Formik initialValues={this.initialValues} onSubmit={this.props.handleSubmit} validationSchema={this.validations}>
         <Form className='form-cadastro'>
           <div className='form-input'>
             <Field  className='field' name='titulo' placeholder='Titulo' type='text'/>
@@ -44,70 +54,6 @@ class FormChamado extends Component {
           <button type="submit" className='submit'>Submit</button>
         </Form>
       </Formik>
-    )
-  }
-}
-
-const validations = Yup.object().shape({
-  titulo: Yup.string().required().max(250),
-  categoria: Yup.string().required(),
-  suporte: Yup.string().required(),
-  modulo: Yup.string().required(),
-  totvs: Yup.string().required()
-})
-
-const initialValues = {
-  titulo: '',
-  categoria: '',
-  suporte: '',
-  modulo: '',
-  totvs: ''
-}
-
-export default class Chamados extends Component {
-  constructor(){
-    super()
-  }
-  
-  cadastro(e){
-    e.preventDefault();
-    console.log('Cadastrou')
-  }
-
-  render() {
-    return(
-      <section>
-        <h1 className='main-title'>Abertura de Chamado</h1>
-        
-        <FormChamado handleSubmit={this.cadastro} validations={validations} initialValues={initialValues} />
-        
-        <table>
-          <thead>
-            <tr>
-              <th>Data Emissão</th>
-              <th>Titulo</th>
-              <th>Categoria</th>
-              <th>Módulo</th>
-              <th>Totvs</th>
-              <th>Usuario</th>
-              <th>Suporte</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>07/04/2019 15:30</td>
-              <td>Erro Log na solcitação de compras</td>
-              <td>Protheus</td>
-              <td>SIGACOM</td>
-              <td></td>
-              <td>marcelo.silva</td>
-              <td>flavio.martins</td>
-              <td>Abrir | Editar | Finalizar | Excluir</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
     )
   }
 }
