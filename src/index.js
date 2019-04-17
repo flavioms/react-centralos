@@ -14,6 +14,7 @@ import './css/Login.css';
 import './css/Cadastro.css';
 import './css/App.css';
 import './css/Menu.css';
+import './css/Table.css';
 
 ReactDOM.render(
   <BrowserRouter >

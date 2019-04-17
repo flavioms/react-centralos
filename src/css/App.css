@@ -1,5 +1,7 @@
 .App{
   display: grid;
+  box-sizing: border-box;
+  overflow: hidden;
   grid-template-columns: 20% 80%;
   grid-template-rows: auto;
   grid-template-areas: 
@@ -11,11 +13,14 @@
 .menu-side{
   grid-area: aside;
   height: 100vh;
+  
 }
 
 .main-content{
   grid-area: main;
   height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .main-title{

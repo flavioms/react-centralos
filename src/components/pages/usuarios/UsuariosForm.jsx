@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {Link} from 'react-router-dom';
 import * as Yup from 'yup';
 
 const validations = Yup.object().shape({
@@ -9,21 +9,16 @@ const validations = Yup.object().shape({
   setor: Yup.string().required(),
   filial: Yup.string().required(),
   email: Yup.string().email().required(),
-  senha: Yup.string().min(6).required()
+  senha: Yup.string().min(6).required(),
+  admin: Yup.boolean().required(),
 })
 
 const initialValues = {}
 
-export default class Cadastro extends Component{
-  cadastrar(e){
-    e.preventDefault();
-  }
+export default class UsuariosForm extends Component{
   render() {
     return(
-      <section>
-
-        <h1 className='main-title'>Crie seu usuário para ter acesso ao sistema!</h1>
-        <Formik initialValues={this.initialValues} onSubmit={this.cadastrar} validationSchema={this.validations}>
+        <Formik initialValues={this.initialValues}  validationSchema={this.validations}>
           <Form className='form-cadastro'>
             <div className='form-input'>
               <Field  className='field' name='nome' placeholder='Nome' type='text'/>
@@ -66,11 +61,14 @@ export default class Cadastro extends Component{
               <Field  className='field' name='senha' placeholder='Senha' type='password'/>
               <ErrorMessage className='error' component='span' name='senha'/>
             </div>
+            <div className='form-input'>
+              <label htmlFor="admin">Administrador?</label>
+              <input type="radio" name="admin" id="admin" value='true'/>Sim
+              <input type="radio" name="admin" id="admin" value='false'/>Não
+            </div>
             <input className='submit' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />
-            <Link className='link' to='/login'>Voltar</Link>
           </Form>
         </Formik>
-      </section>
     )
   }
 }

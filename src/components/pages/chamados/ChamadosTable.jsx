@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class TableChamado extends Component {
+export default class ChamadosTable extends Component {
   constructor(props) {
     super(props);
   }
 
   render(){
     return(
-      <table>
+      <table className='form-table'>
           <thead>
             <tr>
               <th>Data Emissão</th>

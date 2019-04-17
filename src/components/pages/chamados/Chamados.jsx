@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import FormChamado from './ChamadosForm';
+import ChamadosForm from './ChamadosForm';
+import ChamadosTable from './ChamadosTable';
 
 export default class Chamados extends Component {
   constructor(){
@@ -15,7 +16,8 @@ export default class Chamados extends Component {
       <section>
         <h1 className='main-title'>Abertura de Chamado</h1>
         
-        <FormChamado handleSubmit={this.cadastro}  />
+        <ChamadosForm handleSubmit={this.cadastro}  />
+        <ChamadosTable></ChamadosTable>
         
         
       </section>

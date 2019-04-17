@@ -1,59 +1,63 @@
 import React, { Component } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 
-const validations = Yup.object().shape({
-  titulo: Yup.string().required().max(250),
-  categoria: Yup.string().required(),
-  suporte: Yup.string().required(),
-  modulo: Yup.string().required(),
-  totvs: Yup.string().required()
-})
-
-const initialValues = {}
-
-export default class FormChamado extends Component {
+export default class ChamadosForm extends Component {
   // eslint-disable-next-line no-useless-constructor
   constructor (props) {
     super(props);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.state = {
+      chamado: {
+        titulo: '',
+        categoria: '',
+        suporte: '',
+        modulo: '',
+        totvs: ''
+      }
+    }
+  }
+
+  handleInputChange(e) {
+    let chamado = Object.assign({}, this.state.chamado);
+    chamado[e.target.name] = e.target.value;
+    this.setState({chamado})
   }
   
   render(){
     return(
-      <Formik initialValues={this.initialValues} onSubmit={this.props.handleSubmit} validationSchema={this.validations}>
-        <Form className='form-cadastro'>
+        <form className='form-cadastro'>
           <div className='form-input'>
-            <Field  className='field' name='titulo' placeholder='Titulo' type='text'/>
-            <ErrorMessage className='error' component='span' name='titulo'/>
+            <input  className='field' name='titulo' placeholder='Titulo' type='text' value={this.state.chamado.titulo} onChange={this.handleInputChange}/>
           </div>
           <div className='form-select'>
-            <Field  className='field' name='categoria' placeholder='Categoria' component='select'>
-              <option value="software">Software</option>
+            <select  className='field' id='categoria' name='categoria' value={this.state.chamado.categoria} onChange={this.handleInputChange} >
+              <option value='' disabled selected>Escolha a categoria do chamado!</option>
               <option value="hardware">Hardware</option>
-            </Field>
-            <ErrorMessage className='error' component='span' name='categoria'/>
+              <option value="protheus">Protheus</option>
+            </select>
           </div>
           <div className='form-select'>
-            <Field  className='field' name='suporte' placeholder='Defina se o chamado é para um suporte específico ou se qualquer um pode te ajudar!' component='select'>
-            <option value="0">Qualquer Um</option>
-            </Field>
-            <ErrorMessage className='error' component='span' name='suporte'/>
+            <select  className='field' id='suporte' name='suporte' value={this.state.chamado.suporte} onChange={this.handleInputChange} >
+              <option value='' disabled selected>Escolha o suporte que irá te atender!</option>
+            </select>
           </div>
 
-          <div className='form-select'>
-            <Field  className='field' name='modulo' placeholder='Escolha o módulo do sistema' component='select'>
-            <option value="SIGAGPE">Gestão de Pessoal</option>
-            </Field>
-            <ErrorMessage className='error' component='span' name='modulo'/>
-          </div>
+          {this.state.chamado.categoria == 'protheus' && (
+            <div>
+              <div className='form-select'>
+                <select  className='field' name='modulo' value={this.state.chamado.modulo} onChange={this.handleInputChange} >
+                  <option value='' disabled selected >Escolha o módulo do sistema!</option>
+                  <option value="SIGAGPE">Gestão de Pessoal</option>
+                </select>
+              </div>
+              <div className='form-input'>
+                <input  className='field' name='totvs' placeholder='Ticket da Totvs' type='text'  value={this.state.chamado.totvs} onChange={this.handleInputChange}/>
+              </div>
+            </div>
+          )}
 
-          <div className='form-input'>
-            <Field  className='field' name='totvs' placeholder='Ticket da Totvs' type='text'/>
-            <ErrorMessage className='error' component='span' name='totvs'/>
-          </div>
+          
           <button type="submit" className='submit'>Submit</button>
-        </Form>
-      </Formik>
+        </form>
     )
   }
 }

@@ -1,0 +1,28 @@
+.form-table{
+    margin: 2em;
+    width: 90%;
+    
+}
+
+.form-table thead{
+    background-color: #999;
+    text-align: left; 
+    font-family: sans-serif;
+    font-weight: 600;
+}
+
+.form-table tbody{
+    text-align: left; 
+}
+
+.form-table th{
+    padding: .6em;
+}
+
+.form-table tbody tr:hover{
+    background-color: #ddd;
+}
+.form-table td{
+    padding: .6em;
+    
+}

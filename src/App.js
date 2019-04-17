@@ -11,8 +11,11 @@ class App extends Component {
               <li><Link className='item' to='/'>Inicio</Link></li>
               <li><Link className='item' to='/usuarios'>Usuários</Link></li>
               <li><Link className='item' to='/chamados'>Chamados</Link></li>
+              <li><hr></hr></li>
+              <li><Link className='item' to='/categorias'>Categorias</Link></li>
+              <li><Link className='item' to='/modulos'>Módulos</Link></li>
             </ul>
-          </div>
+          </div> 
           <div className='main-content'>
             <div>
               {this.props.children}
