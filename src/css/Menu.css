@@ -1,26 +1,53 @@
-.menu-side{ 
-  background-color: #444;
-  height: 100vh;
+.menu-side .title{
+  background: #333;
+  color: #fff;
   padding: 1em;
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.4)
+  font-family: sans-serif;
+  font-size: 1.4em;
+  font-weight: 900;
+  text-align: center;
 }
 
 .menu-side .list li{
-  margin-bottom: 2em;
+  display: block;
+  padding: 1em;
+}
+
+.menu-side .list li:hover{
+  border-left: #333 solid 6px;
 }
 
 .menu-side .list a{
-  color: #fff;
+  color: #555;
   text-decoration: none;
   font-family: sans-serif;
   font-size: 1em;
   font-weight: 600;
 }
 
-.menu-side .list a:hover{
-  color: #777;
+.menu-side .submenu label{
+  display: block;
+  color: #333;
+  text-align: center;
   text-decoration: none;
   font-family: sans-serif;
-  font-size: 1em;
+  font-size: 2em;
   font-weight: 600;
+}
+
+.menu-side .submenu ul, .menu-side .submenu input{
+  display: none;
+}
+
+.menu-side .submenu input[type=checkbox]:not(:checked) ~ label::after{
+  content: " + ";
+}
+
+.menu-side .submenu input[type=checkbox]:checked ~ label::after{
+  content: " - ";
+}
+
+
+.menu-side .submenu input[type=checkbox]:checked ~ ul{
+  display: block;
 }

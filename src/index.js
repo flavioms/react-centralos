@@ -7,6 +7,8 @@ import Home from './components/pages/Home';
 import Cadastro from './components/pages/usuarios/Cadastro';
 import Chamados from './components/pages/chamados/Chamados';
 import Usuarios from './components/pages/usuarios/Usuarios';
+import Modulos from './components/pages/modulos/Modulos';
+import Categorias from './components/pages/categorias/Categorias';
 import * as serviceWorker from './serviceWorker';
 
 import './css/Reset.css';
@@ -25,8 +27,8 @@ ReactDOM.render(
         <Route path='/' exact={true} component={Home} />
         <Route path='/chamados' component={Chamados}/>
         <Route path='/usuarios' component={Usuarios}/>
-        <Route path='/categorias' component={Chamados}/>
-        <Route path='/modulos' component={Chamados}/>
+        <Route path='/categorias' component={Categorias}/>
+        <Route path='/modulos' component={Modulos}/>
       </App>
     </Switch>
   </BrowserRouter>, 

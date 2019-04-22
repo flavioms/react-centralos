@@ -41,7 +41,7 @@ export default class ChamadosForm extends Component {
             </select>
           </div>
 
-          {this.state.chamado.categoria == 'protheus' && (
+          {this.state.chamado.categoria === 'protheus' && (
             <div>
               <div className='form-select'>
                 <select  className='field' name='modulo' value={this.state.chamado.modulo} onChange={this.handleInputChange} >

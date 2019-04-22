@@ -7,19 +7,24 @@ class App extends Component {
       return (
         <div className="App">
           <div className='menu-side'>
+            <h1 className='title'>ORMEC ENGENHARIA</h1>
             <ul className='list'>
               <li><Link className='item' to='/'>Inicio</Link></li>
               <li><Link className='item' to='/usuarios'>Usuários</Link></li>
               <li><Link className='item' to='/chamados'>Chamados</Link></li>
-              <li><hr></hr></li>
-              <li><Link className='item' to='/categorias'>Categorias</Link></li>
-              <li><Link className='item' to='/modulos'>Módulos</Link></li>
+              <hr></hr>
+              <div className='submenu'>
+                <input type='checkbox' id='avancado' name='avancado' value='avancado'/>
+                <label for='avancado'></label>
+                <ul className='submenu-itens'>
+                  <li><Link className='item' to='/categorias'>Categorias</Link></li>
+                  <li><Link className='item' to='/modulos'>Módulos</Link></li>
+                </ul>
+              </div>
             </ul>
           </div> 
           <div className='main-content'>
-            <div>
               {this.props.children}
-            </div>
           </div>
         </div>
       )
