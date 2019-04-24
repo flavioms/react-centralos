@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class CategoriasTable extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render(){
-    return(
-        <table className='form-table'>
-          <thead>
+const CategoriasTable = props => {
+  return(
+    <table className='form-table'>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.categorias.map(categoria => {
+          return(
             <tr>
-              <th>Id</th>
-              <th>Nome</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Software</td>
+              <td>{categoria.id}</td>
+              <td>{categoria.nome}</td>
               <td>Editar | Excluir</td>
             </tr>
-          </tbody>
-        </table>
-    )
-  }
+          )
+        })}
+      </tbody>
+    </table>
+  )
 }
+
+export default CategoriasTable;
