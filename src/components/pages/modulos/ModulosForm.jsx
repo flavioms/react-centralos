@@ -19,11 +19,11 @@ export default class ModulosForm extends Component{
 
   render(){
     return(
-      <form className='form-cadastro'>
-        <div className='form-input'>
-          <input  className='field' name='nome' placeholder='Nome' type='text' value={this.state.modulo.nome} onChange={this.handleInputChange}/>
+      <form className='mt-4'>
+        <div className='form-group'>
+          <input  className='form-control' name='nome' placeholder='Nome' type='text' value={this.state.modulo.nome} onChange={this.handleInputChange}/>
         </div>
-        <input className='submit' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />
+        <input className='btn btn-primary' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />
       </form>
     )
   }

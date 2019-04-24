@@ -4,7 +4,7 @@ export default class Home extends Component {
   render() {
     return(
       <div>
-        <h1>Bem Vindo</h1>
+        <h2 className="mx-auto">Bem Vindo</h2>
       </div>
     )
   }

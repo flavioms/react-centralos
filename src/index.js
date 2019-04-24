@@ -5,18 +5,12 @@ import App from './App';
 import Login from './components/pages/usuarios/Login';
 import Home from './components/pages/Home';
 import Cadastro from './components/pages/usuarios/Cadastro';
-import Chamados from './components/pages/chamados/Chamados';
+import ChamadosSetor from './components/pages/chamados/ChamadosSetor';
+import ChamadosAtender from './components/pages/chamados/ChamadosAtender';
 import Usuarios from './components/pages/usuarios/Usuarios';
 import Modulos from './components/pages/modulos/Modulos';
 import Categorias from './components/pages/categorias/Categorias';
 import * as serviceWorker from './serviceWorker';
-
-import './css/Reset.css';
-import './css/Login.css';
-import './css/Cadastro.css';
-import './css/App.css';
-import './css/Menu.css';
-import './css/Table.css';
 
 ReactDOM.render(
   <BrowserRouter >
@@ -25,7 +19,8 @@ ReactDOM.render(
       <Route path='/cadastro' component={Cadastro}/>
       <App>
         <Route path='/' exact={true} component={Home} />
-        <Route path='/chamados' component={Chamados}/>
+        <Route path='/chamadosSetor' component={ChamadosSetor}/>
+        <Route path='/chamadosAtender' component={ChamadosAtender}/>
         <Route path='/usuarios' component={Usuarios}/>
         <Route path='/categorias' component={Categorias}/>
         <Route path='/modulos' component={Modulos}/>

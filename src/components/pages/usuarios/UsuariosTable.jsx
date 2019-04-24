@@ -7,15 +7,15 @@ export default class UsuariosTable extends Component {
 
   render(){
     return(
-        <table className='form-table'>
-          <thead>
+        <table className='table table-striped mt-5'>
+          <thead className='thead-dark'>
             <tr>
               <th>Id</th>
               <th>Nome</th>
               <th>E-mail</th>
               <th>C. Custo</th>
               <th>Filial</th>
-              <th>Suporte</th>
+              <th>Administrador</th>
               <th>Ações</th>
             </tr>
           </thead>

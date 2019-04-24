@@ -2,11 +2,11 @@ import React from 'react';
 
 const CategoriasForm = props => {
     return(
-      <form className='form-cadastro' onSubmit={props.submitFunction}>
-        <div className='form-input'>
-          <input  className='field' name='nome' placeholder='Nome' type='text' value={props.categoria.nome} onChange={props.handleInputChange}/>
+      <form className='mt-4' onSubmit={props.submitFunction}>
+        <div className='form-group'>
+          <input  className='form-control' name='nome' placeholder='Nome' type='text' value={props.categoria.nome} onChange={props.handleInputChange}/>
         </div>
-        <input className='submit' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />
+        <input className='btn btn-primary' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />
       </form>
     )
 }

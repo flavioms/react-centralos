@@ -1,62 +1,47 @@
 import React, { Component } from 'react';
 
 export default class ChamadosForm extends Component {
-  // eslint-disable-next-line no-useless-constructor
-  constructor (props) {
-    super(props);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.state = {
-      chamado: {
-        titulo: '',
-        categoria: '',
-        suporte: '',
-        modulo: '',
-        totvs: ''
-      }
-    }
-  }
-
-  handleInputChange(e) {
-    let chamado = Object.assign({}, this.state.chamado);
-    chamado[e.target.name] = e.target.value;
-    this.setState({chamado})
+  constructor(props){
+    super(props)
   }
   
   render(){
     return(
-        <form className='form-cadastro'>
-          <div className='form-input'>
-            <input  className='field' name='titulo' placeholder='Titulo' type='text' value={this.state.chamado.titulo} onChange={this.handleInputChange}/>
+        <form className='mt-4' onSubmit={this.props.handleSubmit}>
+          <div className='form-group'>
+            <input  className='form-control' name='titulo' placeholder='Titulo' type='text' value={this.props.chamado.titulo} onChange={this.props.handleInputChange}/>
           </div>
-          <div className='form-select'>
-            <select  className='field' id='categoria' name='categoria' value={this.state.chamado.categoria} onChange={this.handleInputChange} >
+          <div className='form-group'>
+            <select  className='form-control' id='categoria' name='categoria' value={this.props.chamado.categoria} onChange={this.props.handleInputChange} >
               <option value='' disabled selected>Escolha a categoria do chamado!</option>
               <option value="hardware">Hardware</option>
               <option value="protheus">Protheus</option>
             </select>
           </div>
-          <div className='form-select'>
-            <select  className='field' id='suporte' name='suporte' value={this.state.chamado.suporte} onChange={this.handleInputChange} >
-              <option value='' disabled selected>Escolha o suporte que irá te atender!</option>
+          <div className='form-group'>
+            <select  className='form-control' id='setor' name='setor' value={this.props.chamado.setor} onChange={this.props.handleInputChange} >
+              <option value='' disabled selected>Escolha o setor que irá te atender!</option>
+              <option value="TI">TI</option>
+              <option value="RH">RH</option>
             </select>
           </div>
 
-          {this.state.chamado.categoria === 'protheus' && (
+          {this.props.chamado.categoria === 'protheus' && (
             <div>
-              <div className='form-select'>
-                <select  className='field' name='modulo' value={this.state.chamado.modulo} onChange={this.handleInputChange} >
+              <div className='form-group'>
+                <select  className='form-control' name='modulo' value={this.props.chamado.modulo} onChange={this.props.handleInputChange} >
                   <option value='' disabled selected >Escolha o módulo do sistema!</option>
                   <option value="SIGAGPE">Gestão de Pessoal</option>
                 </select>
               </div>
-              <div className='form-input'>
-                <input  className='field' name='totvs' placeholder='Ticket da Totvs' type='text'  value={this.state.chamado.totvs} onChange={this.handleInputChange}/>
+              <div className='form-group'>
+                <input  className='form-control' name='totvs' placeholder='Ticket da Totvs' type='text'  value={this.props.chamado.totvs} onChange={this.props.handleInputChange}/>
               </div>
             </div>
           )}
 
           
-          <button type="submit" className='submit'>Submit</button>
+          <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>
     )
   }

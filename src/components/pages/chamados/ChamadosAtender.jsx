@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import ChamadosForm from './ChamadosForm';
 import ChamadosTable from './ChamadosTable';
 
-export default class Chamados extends Component {
+export default class ChamadosAtender extends Component {
   constructor(){
     super()
   }
@@ -14,12 +13,8 @@ export default class Chamados extends Component {
   render() {
     return(
       <section>
-        <h1 className='main-title'>Abertura de Chamado</h1>
-        
-        <ChamadosForm handleSubmit={this.cadastro}  />
+        <h2 className='h2 mt-4'>Chamados para serem atendidos!</h2>
         <ChamadosTable></ChamadosTable>
-        
-        
       </section>
     )
   }

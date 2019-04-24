@@ -26,15 +26,15 @@ export default class UsuariosForm extends Component{
 
   render() {
     return(
-          <form className='form-cadastro'>
-            <div className='form-input'>
-              <input  className='field' name='nome' placeholder='Nome' type='text' value={this.state.usuario.nome} onChange={this.handleInputChange}/>
+          <form className='mt-4'>
+            <div className='form-group'>
+              <input  className='form-control' name='nome' placeholder='Nome' type='text' value={this.state.usuario.nome} onChange={this.handleInputChange}/>
             </div>
-            <div className='form-input'>
-              <input  className='field' name='ccusto' placeholder='Centro de Custo' type='text'value={this.state.usuario.ccusto} onChange={this.handleInputChange}/>
+            <div className='form-group'>
+              <input  className='form-control' name='ccusto' placeholder='Centro de Custo' type='text'value={this.state.usuario.ccusto} onChange={this.handleInputChange}/>
             </div>
-            <div className='form-input'>
-              <select  className='field' name='setor' value={this.state.usuario.setor} onChange={this.handleInputChange}>
+            <div className='form-group'>
+              <select  className='form-control' name='setor' value={this.state.usuario.setor} onChange={this.handleInputChange}>
                 <option value='' disabled selected>Escolha seu Setor!</option>
                 <option value="TI">TI</option>
                 <option value="RH">RH</option>
@@ -45,8 +45,8 @@ export default class UsuariosForm extends Component{
                 <option value="FILIAL">FILIAL - ADM</option>
               </select>
             </div>
-            <div className='form-select'>
-              <select  className='field' name='filial' value={this.state.usuario.filial} onChange={this.handleInputChange}>
+            <div className='form-group'>
+              <select  className='form-control' name='filial' value={this.state.usuario.filial} onChange={this.handleInputChange}>
               <option value='' disabled selected>Escolha sua Filial!</option>
                 <option value="01">MVR - Volta Redonda</option>
                 <option value="23">FRJ - Rio de Janeiro</option>
@@ -58,18 +58,24 @@ export default class UsuariosForm extends Component{
                 <option value="24">FBA - Bahia</option>
               </select>
             </div>
-            <div className='form-input'>
-              <input  className='field' name='email' placeholder='E-mail' type='email' value={this.state.usuario.email} onChange={this.handleInputChange}/>
+            <div className='form-group'>
+              <input  className='form-control' name='email' placeholder='E-mail' type='email' value={this.state.usuario.email} onChange={this.handleInputChange}/>
             </div>
-            <div className='form-input'>
-              <input  className='field' name='senha' placeholder='Senha' type='password' value={this.state.usuario.senha} onChange={this.handleInputChange}/>
+            <div className='form-group'>
+              <input  className='form-control' name='senha' placeholder='Senha' type='password' value={this.state.usuario.senha} onChange={this.handleInputChange}/>
             </div>
-            <div className='form-input'>
-              <label htmlFor="admin">Administrador?</label>
-              <input type="radio" name="admin" id="admin" value="true" checked={this.state.usuario.admin === "true"} onChange={this.handleInputChange}/>Sim
-              <input type="radio" name="admin" id="admin" value="false" checked={this.state.usuario.admin === "false"} onChange={this.handleInputChange}/>Não
+            <div className='form-group'>
+              <label htmlFor="admin">O usuário é administrador?</label>
+              <div className="custom-control custom-radio custom-control-inline ml-3">
+                <input type="radio" id="admin1" name="admin" value="true" className="custom-control-input" checked={this.state.usuario.admin === "true"} onChange={this.handleInputChange}/>
+                <label className="custom-control-label" for="admin1">Sim</label>
+              </div>
+              <div className="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="admin2" name="admin" value="false" className="custom-control-input" checked={this.state.usuario.admin === "false"} onChange={this.handleInputChange}/>
+                <label className="custom-control-label" for="admin2">Não</label>
+              </div>
             </div>
-            <input className='submit' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />
+            <input className='btn btn-primary' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />
           </form>
     )
   }

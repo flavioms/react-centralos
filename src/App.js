@@ -1,30 +1,38 @@
 import React, { Component } from 'react';
-import Home from './components/pages/Home';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 class App extends Component {
   render() {
       return (
-        <div className="App">
-          <div className='menu-side'>
-            <h1 className='title'>ORMEC ENGENHARIA</h1>
-            <ul className='list'>
-              <li><Link className='item' to='/'>Inicio</Link></li>
-              <li><Link className='item' to='/usuarios'>Usuários</Link></li>
-              <li><Link className='item' to='/chamados'>Chamados</Link></li>
-              <hr></hr>
-              <div className='submenu'>
-                <input type='checkbox' id='avancado' name='avancado' value='avancado'/>
-                <label for='avancado'></label>
-                <ul className='submenu-itens'>
-                  <li><Link className='item' to='/categorias'>Categorias</Link></li>
-                  <li><Link className='item' to='/modulos'>Módulos</Link></li>
-                </ul>
+        <div>
+          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a className="navbar-brand" href="#">Ormec Engenharia</a>
+ 
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item"><Link to='/' className="nav-link">Home</Link></li>
+                <li className="nav-item"><Link to='/chamadosSetor' className="nav-link">Chamados Do Setor</Link></li>
+                <li className="nav-item"><Link to='/chamadosAtender' className="nav-link">Chamados Para Atender</Link></li>
+                <li className="nav-item"><Link to='/usuarios' className="nav-link">Usuários</Link></li>
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Avançados
+                  </a>
+                  <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                    <Link to='/modulos' className="nav-link">Módulos</Link>
+                    <Link to='/categorias' className="nav-link">Categorias</Link>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+          <div className='container'>
+            <div className='row'>
+              <div className='w-100'>
+                {this.props.children}
               </div>
-            </ul>
-          </div> 
-          <div className='main-content'>
-              {this.props.children}
+            </div>
           </div>
         </div>
       )

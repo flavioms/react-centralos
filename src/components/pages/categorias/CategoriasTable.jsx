@@ -2,8 +2,8 @@ import React from 'react';
 
 const CategoriasTable = props => {
   return(
-    <table className='form-table'>
-      <thead>
+    <table className='table table-striped mt-5'>
+      <thead className='thead-dark'>
         <tr>
           <th>Id</th>
           <th>Nome</th>

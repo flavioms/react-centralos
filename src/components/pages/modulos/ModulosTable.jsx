@@ -7,8 +7,8 @@ export default class ModulosTable extends Component {
 
   render(){
     return(
-        <table className='form-table'>
-          <thead>
+        <table className='table table-striped mt-5'>
+          <thead className='thead-dark'>
             <tr>
               <th>Id</th>
               <th>Nome</th>
