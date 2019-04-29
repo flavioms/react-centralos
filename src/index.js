@@ -11,19 +11,22 @@ import Usuarios from './components/pages/usuarios/Usuarios';
 import Modulos from './components/pages/modulos/Modulos';
 import Categorias from './components/pages/categorias/Categorias';
 import * as serviceWorker from './serviceWorker';
+import PrivateRoute from './components/shared/PrivateRoute';
+
 
 ReactDOM.render(
   <BrowserRouter >
     <Switch>
+      <Route path='/' exact={true} component={Login} />
       <Route path='/login' component={Login} />
       <Route path='/cadastro' component={Cadastro}/>
       <App>
-        <Route path='/' exact={true} component={Home} />
-        <Route path='/chamadosSetor' component={ChamadosSetor}/>
-        <Route path='/chamadosAtender' component={ChamadosAtender}/>
-        <Route path='/usuarios' component={Usuarios}/>
-        <Route path='/categorias' component={Categorias}/>
-        <Route path='/modulos' component={Modulos}/>
+        <PrivateRoute path='/home' component={Home} />
+        <PrivateRoute path='/chamadosSetor' component={ChamadosSetor}/>
+        <PrivateRoute path='/chamadosAtender' component={ChamadosAtender}/>
+        <PrivateRoute path='/usuarios' component={Usuarios}/>
+        <PrivateRoute path='/categorias' component={Categorias}/>
+        <PrivateRoute path='/modulos' component={Modulos}/>
       </App>
     </Switch>
   </BrowserRouter>, 

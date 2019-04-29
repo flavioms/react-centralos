@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import ListConf from '../../../ListConf';
 
-export default class Cadastro extends Component{
-  
-  constructor(props){
+export default class Cadastro extends Component {
+
+  constructor(props) {
     super(props);
     this.cadastrar = this.cadastrar.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this)
     this.state = {
       redirect: false,
+      msg: {
+        class: '',
+        texto: '',
+      },
       usuario: {
         nome: '',
         ccusto: '',
@@ -23,10 +28,10 @@ export default class Cadastro extends Component{
   handleInputChange(e) {
     let usuario = Object.assign({}, this.state.usuario);
     usuario[e.target.name] = e.target.value;
-    this.setState({usuario})
+    this.setState({ usuario })
   }
 
-  cadastrar(e){
+  cadastrar(e) {
     e.preventDefault();
     fetch('http://localhost:5000/users', {
       method: 'POST',
@@ -34,57 +39,56 @@ export default class Cadastro extends Component{
     }).then(response => {
       return response.json()
     }).then(result => {
-      this.setState({redirect: true})
+      if (result.error) {
+        throw new Error(result.message)
+      }
+      this.setState({ msg: { class: "alert alert-success", texto: 'Usuário cadastrado com sucesso!' } })
+      setTimeout(() => { this.setState({ redirect: true }) }, 2000);
+    }).catch(error => {
+      this.setState({ msg: { class: "alert alert-danger", texto: error.message } })
     })
   }
 
   render() {
-    if(this.state.redirect){
-      return(<Redirect to='/login'/>)
+    const usuario = this.state.usuario;
+    if (this.state.redirect) {
+      return (<Redirect to='/login' />)
     }
-    return(
+    return (
       <section className='container'>
+        {!!this.state.msg.texto && <div className={this.state.msg.class} role="alert">{this.state.msg.texto}</div>}
         <h2 className='h2'>Crie seu usuário para ter acesso ao sistema!</h2>
         <form className='mt-4' onSubmit={this.cadastrar}>
           <div className='form-group'>
-            <input  className='form-control' name='nome' placeholder='Nome' type='text' value={this.state.usuario.nome} onChange={this.handleInputChange}/>
+            <input className='form-control' name='nome' placeholder='Nome' type='text' required value={usuario.nome} onChange={this.handleInputChange} />
           </div>
           <div className='form-group'>
-            <input  className='form-control' name='ccusto' placeholder='Centro de Custo' type='text'value={this.state.usuario.ccusto} onChange={this.handleInputChange}/>
+            <input className='form-control' name='ccusto' placeholder='Centro de Custo' required type='text' value={usuario.ccusto} onChange={this.handleInputChange} />
           </div>
           <div className='form-group'>
-            <select  className='form-control' name='setor' value={this.state.usuario.setor} onChange={this.handleInputChange}>
+            <select className='form-control' name='setor' value={usuario.setor} onChange={this.handleInputChange}>
               <option value='' disabled selected>Escolha seu Setor!</option>
-              <option value="TI">TI</option>
-              <option value="RH">RH</option>
-              <option value="CONTABILIDADE">CONTABILIDADE</option>
-              <option value="SUPRIMENTOS">SUPRIMENTOS</option>
-              <option value="FINANCEIRO">FINANCEIRO</option>
-              <option value="JURIDICO">JURÍDICO</option>
-              <option value="FILIAL">FILIAL - ADM</option>
+              {ListConf.SETORES.map(setor => (
+                <option value={setor.codigo}>{setor.nome}</option>
+              ))}
             </select>
           </div>
           <div className='form-group'>
-            <select  className='form-control' name='filial' value={this.state.usuario.filial} onChange={this.handleInputChange}>
-            <option value='' disabled selected>Escolha sua Filial!</option>
-              <option value="01">MVR - Volta Redonda</option>
-              <option value="23">FRJ - Rio de Janeiro</option>
-              <option value="21">FPA - Porto do Açu</option>
-              <option value="12">FMG - Minas Gerais</option>
-              <option value="13">FCB - Cubatão</option>
-              <option value="20">FSE - Serra</option>
-              <option value="22">FVC - Vale dos Carajas</option>
-              <option value="24">FBA - Bahia</option>
+            <select className='form-control' name='filial' value={usuario.filial} onChange={this.handleInputChange}>
+              <option value='' disabled selected>Escolha sua Filial!</option>
+              {ListConf.FILIAIS.map(filial => (
+                <option value={filial.nome}>{filial.nome}</option>
+              ))}
             </select>
           </div>
           <div className='form-group'>
-            <input  className='form-control' name='email' placeholder='E-mail' type='email' value={this.state.usuario.email} onChange={this.handleInputChange}/>
+            <input className='form-control' name='email' placeholder='E-mail' type='email' required value={usuario.email} onChange={this.handleInputChange} />
           </div>
           <div className='form-group'>
-            <input  className='form-control' name='senha' placeholder='Senha' type='password' value={this.state.usuario.senha} onChange={this.handleInputChange}/>
+            <input className='form-control' name='senha' placeholder='Senha' type='password' required value={usuario.senha} onChange={this.handleInputChange} />
           </div>
           <input className='btn btn-primary' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />
-          <Link to='/login' className='btn btn-secondary ml-4' >Cancelar</Link>
+          <Link to='/login' className='btn btn-secondary ml-4' >Voltar</Link>
         </form>
       </section>
     )

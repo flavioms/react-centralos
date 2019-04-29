@@ -14,158 +14,30 @@ export default class UsuariosTable extends Component {
               <th>Nome</th>
               <th>E-mail</th>
               <th>C. Custo</th>
+              <th>Setor</th>
               <th>Filial</th>
               <th>Administrador</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr><tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-
-            <tr>
-              <td>1</td>
-              <td>Flávio Martins</td>
-              <td>flavio.martins@ormec.com.br</td>
-              <td>01000IN</td>
-              <td>01</td>
-              <td>Sim</td>
-              <td>Editar | Excluir</td>
-            </tr>
-            
+            {this.props.usuarios.map((usuario, index) => {
+              return(
+                <tr key={usuario._id}>
+                  <td>{index}</td>
+                  <td>{usuario.nome}</td>
+                  <td>{usuario.email}</td>
+                  <td>{usuario.ccusto}</td>
+                  <td>{usuario.setor}</td>
+                  <td>{usuario.filial}</td>
+                  <td>{usuario.admin ? 'Sim' : 'Não'}</td>
+                  <td>
+                    <button className='btn btn-link' id='alterar' name='alterar' onClick={() => this.props.handleAlterar(usuario)}>Alterar</button> 
+                    <button className='btn btn-link' id='excluir' name='excluir' onClick={() => this.props.handleExcluir(usuario)}>Excluir</button>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
     )
