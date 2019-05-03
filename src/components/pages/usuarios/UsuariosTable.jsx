@@ -1,45 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react'
 
-export default class UsuariosTable extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render(){
-    return(
-        <table className='table table-striped mt-5'>
-          <thead className='thead-dark'>
-            <tr>
-              <th>Id</th>
-              <th>Nome</th>
-              <th>E-mail</th>
-              <th>C. Custo</th>
-              <th>Setor</th>
-              <th>Filial</th>
-              <th>Administrador</th>
-              <th>Ações</th>
+const UsuariosTable = (props) => {
+  return (
+    <table className='table table-striped mt-5'>
+      <thead className='thead-dark'>
+        <tr>
+          <th className='text-nowrap'>Id</th>
+          <th className='text-nowrap'>Nome</th>
+          <th className='text-nowrap'>E-mail</th>
+          <th className='text-nowrap'>C. Custo</th>
+          <th className='text-nowrap'>Setor</th>
+          <th className='text-nowrap'>Filial</th>
+          <th className='text-nowrap'>Administrador</th>
+          <th className='text-nowrap'>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.usuarios.data.map((usuario, index) => {
+          return (
+            <tr key={usuario._id}>
+              <td className='text-nowrap'>{index}</td>
+              <td className='text-nowrap'>{usuario.nome}</td>
+              <td className='text-nowrap'>{usuario.email}</td>
+              <td className='text-nowrap'>{usuario.ccusto}</td>
+              <td className='text-nowrap'>{usuario.setor}</td>
+              <td className='text-nowrap'>{usuario.filial}</td>
+              <td className='text-nowrap'>{usuario.admin ? 'Sim' : 'Não'}</td>
+              <td className='text-nowrap'>
+                <button className='btn btn-link' id='alterar' name='alterar' onClick={() => props.handleChange(usuario)}>Alterar</button>
+                <button className='btn btn-link' id='excluir' name='excluir' onClick={() => props.handleDelete(usuario)}>Excluir</button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {this.props.usuarios.map((usuario, index) => {
-              return(
-                <tr key={usuario._id}>
-                  <td>{index}</td>
-                  <td>{usuario.nome}</td>
-                  <td>{usuario.email}</td>
-                  <td>{usuario.ccusto}</td>
-                  <td>{usuario.setor}</td>
-                  <td>{usuario.filial}</td>
-                  <td>{usuario.admin ? 'Sim' : 'Não'}</td>
-                  <td>
-                    <button className='btn btn-link' id='alterar' name='alterar' onClick={() => this.props.handleAlterar(usuario)}>Alterar</button> 
-                    <button className='btn btn-link' id='excluir' name='excluir' onClick={() => this.props.handleExcluir(usuario)}>Excluir</button>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-    )
-  }
+          )
+        })}
+      </tbody>
+    </table>
+  )
 }
+
+export default UsuariosTable

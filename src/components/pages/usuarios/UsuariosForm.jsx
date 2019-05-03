@@ -5,7 +5,6 @@ const UsuariosForm = (props) => {
   const usuario = props.usuario;
   return (
     <div>
-
       <form className='mt-4' onSubmit={props.handleSubmit}>
         <div className='form-group'>
           <input className='form-control' name='nome' placeholder='Nome' type='text' value={usuario.nome} onChange={props.handleInputChange} />
@@ -15,7 +14,7 @@ const UsuariosForm = (props) => {
         </div>
         <div className='form-group'>
           <select className='form-control' name='setor' value={usuario.setor} onChange={props.handleInputChange}>
-            <option value='' disabled selected>Escolha seu Setor!</option>
+            <option value='' disabled defaultValue>Escolha seu Setor!</option>
             {ListConf.SETORES.map((setor, index) => (
               <option key={index} value={setor.nome}>{setor.nome}</option>
             ))}
@@ -23,7 +22,7 @@ const UsuariosForm = (props) => {
         </div>
         <div className='form-group'>
           <select className='form-control' name='filial' value={usuario.filial} onChange={props.handleInputChange}>
-            <option value='' disabled selected>Escolha sua Filial!</option>
+            <option value='' disabled defaultValue>Escolha sua Filial!</option>
             {ListConf.FILIAIS.map(filial => (
               <option key={filial.codigo} value={filial.codigo}>{filial.nome}</option>
             ))}
@@ -42,11 +41,11 @@ const UsuariosForm = (props) => {
           <label htmlFor="admin">O usuário é administrador?</label>
           <div className="custom-control custom-radio custom-control-inline ml-3">
             <input type="radio" id="admin1" name="admin" value="true" className="custom-control-input" checked={usuario.admin === true} onChange={props.handleInputChange} />
-            <label className="custom-control-label" for="admin1">Sim</label>
+            <label className="custom-control-label" htmlFor="admin1">Sim</label>
           </div>
           <div className="custom-control custom-radio custom-control-inline">
             <input type="radio" id="admin2" name="admin" value="false" className="custom-control-input" checked={usuario.admin === false} onChange={props.handleInputChange} />
-            <label className="custom-control-label" for="admin2">Não</label>
+            <label className="custom-control-label" htmlFor="admin2">Não</label>
           </div>
         </div>
         <button className='btn btn-primary' type="submit" name="cadastrar" id="cadastrar">Cadastrar</button>

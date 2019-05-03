@@ -19,7 +19,17 @@ const FILIAIS = [
     {codigo: 'FBA', nome:'FBA - Bahia'}
 ]
 
+const STATUS = [
+    {nome: 'Encerrado'},
+    {nome: 'Em Atendimento'},
+    {nome: 'Aguardando Atendimento'},
+    {nome: 'Aguardando Fornecedor'},
+    {nome: 'Aguardando Totvs'},
+    {nome: 'Aguardando Usuário'}
+]
+
 module.exports = Object.freeze({
     SETORES: SETORES,
-    FILIAIS: FILIAIS
+    FILIAIS: FILIAIS,
+    STATUS: STATUS
 });

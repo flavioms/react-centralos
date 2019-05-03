@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import UsuariosForm from './UsuariosForm';
 import UsuariosTable from './UsuariosTable';
 
-export default class Usuarios extends Component {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as UsuariosActions from '../../../store/actions/usuarios';
+
+class Usuarios extends Component {
   constructor(props) {
     super(props);
     this.salvar = this.salvar.bind(this);
@@ -11,7 +15,6 @@ export default class Usuarios extends Component {
     this.limpar = this.limpar.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this)
     this.state = {
-      listaUsuarios: [],
       msg: {
         class: '',
         texto: '',
@@ -30,47 +33,33 @@ export default class Usuarios extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.getUsuarios()
+  }
+
   handleInputChange(e) {
     let usuario = Object.assign({}, this.state.usuario);
     usuario[e.target.name] = e.target.value;
     this.setState({ usuario })
   }
 
-  componentDidMount() {
-    this.limpar();
-  }
-
   limpar() {
-    const options = {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('auth-token')
+    this.setState({
+      msg: {
+        texto: '',
       },
-      credentials: "same-origin"
-    };
-
-    fetch('http://localhost:5000/users', options)
-      .then(response => {
-        return response.json()
-      }).then(result => {
-        this.setState({
-          listaUsuarios: result,
-          msg: {
-            texto: '',
-          },
-          usuario: {
-            _id: '',
-            nome: '',
-            ccusto: '',
-            setor: '',
-            filial: '',
-            email: '',
-            senha: '',
-            confsenha: '',
-            admin: false
-          }
-        })
-      })
+      usuario: {
+        _id: '',
+        nome: '',
+        ccusto: '',
+        setor: '',
+        filial: '',
+        email: '',
+        senha: '',
+        confsenha: '',
+        admin: false
+      }
+    })
   }
 
   salvar(e) {
@@ -145,7 +134,7 @@ export default class Usuarios extends Component {
 
   excluir(usuario) {
     let yesNo = window.confirm('Deseja realmente excluir este usuário?')
-    if(yesNo){
+    if (yesNo) {
       fetch(`http://localhost:5000/users/${usuario._id}`, {
         method: 'DELETE',
         headers: {
@@ -174,8 +163,23 @@ export default class Usuarios extends Component {
         {!!this.state.msg.texto && <div className={this.state.msg.className} role="alert">{this.state.msg.texto}</div>}
         <h2 className='h2 mt-4'>Controle de Usuários</h2>
         <UsuariosForm handleSubmit={this.salvar} handleClear={this.limpar} handleInputChange={this.handleInputChange} usuario={this.state.usuario} />
-        <UsuariosTable usuarios={this.state.listaUsuarios} handleAlterar={this.alterar} handleExcluir={this.excluir} ></UsuariosTable>
+        <UsuariosTable usuarios={this.props.usuarios} handleChange={this.alterar} handleDelete={this.excluir} ></UsuariosTable>
+        {!!this.props.usuarios.loading && (
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>)}
       </section>
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  usuarios: state.usuarios
+})
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(UsuariosActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Usuarios)
