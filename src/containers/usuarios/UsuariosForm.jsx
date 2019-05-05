@@ -1,5 +1,5 @@
 import React from 'react'
-import ListConf from '../../../ListConf';
+import ListConf from '../../constants/ListConf';
 
 const UsuariosForm = (props) => {
   const usuario = props.usuario;

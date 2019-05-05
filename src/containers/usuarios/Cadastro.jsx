@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import ListConf from '../../../ListConf';
+import ListConf from '../../constants/ListConf';
 
 export default class Cadastro extends Component {
 

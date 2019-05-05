@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import UsuariosForm from './UsuariosForm';
 import UsuariosTable from './UsuariosTable';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as UsuariosActions from '../../../store/actions/usuarios';
-
 class Usuarios extends Component {
   constructor(props) {
     super(props);
@@ -175,11 +171,4 @@ class Usuarios extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  usuarios: state.usuarios
-})
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(UsuariosActions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Usuarios)
+export default Usuarios
