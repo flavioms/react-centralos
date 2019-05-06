@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import UsuariosForm from './UsuariosForm';
 import UsuariosTable from './UsuariosTable';
+import * as action from '../../actions/usuarios';
+import { usuarioThunks } from '../../thunks/usuario';
 
 class Usuarios extends Component {
   constructor(props) {
     super(props);
-    this.salvar = this.salvar.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.alterar = this.alterar.bind(this);
+    this.salvar = this.salvar.bind(this);
     this.excluir = this.excluir.bind(this);
     this.limpar = this.limpar.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this)
     this.state = {
-      msg: {
-        class: '',
-        texto: '',
-      },
+      msg: '',
       usuario: {
         _id: '',
         nome: '',
@@ -29,68 +29,29 @@ class Usuarios extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.getUsuarios()
-  }
-
   handleInputChange(e) {
     let usuario = Object.assign({}, this.state.usuario);
     usuario[e.target.name] = e.target.value;
     this.setState({ usuario })
   }
 
-  limpar() {
-    this.setState({
-      msg: {
-        texto: '',
-      },
-      usuario: {
-        _id: '',
-        nome: '',
-        ccusto: '',
-        setor: '',
-        filial: '',
-        email: '',
-        senha: '',
-        confsenha: '',
-        admin: false
-      }
-    })
-  }
-
-  salvar(e) {
+  async salvar(e) {
     e.preventDefault();
     let usuarioCadastro = this.state.usuario;
     let usuarioID = usuarioCadastro._id
-
     if (!usuarioID) {
-      try {
-        if (usuarioCadastro.senha !== usuarioCadastro.confsenha) {
-          throw new Error('A confirmação de senha não bate')
-        }
-
+      if (usuarioCadastro.senha === usuarioCadastro.confsenha) {
         delete usuarioCadastro.confsenha;
         delete usuarioCadastro._id;
-
-        fetch('http://localhost:5000/users', {
-          method: 'POST',
-          body: JSON.stringify(usuarioCadastro)
-        }).then(response => {
-          return response.json()
-        }).then(result => {
-          if (result.error) {
-            throw new Error(`Não foi possivel cadastrar o usuário - ${result.message}`)
-          }
-          this.setState({ msg: { className: "alert alert-success", texto: 'Usuário cadastrado com sucesso!' } })
-          setTimeout(() => {
-            this.limpar()
-          }, 2000);
-        }).catch(error => {
-          this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-        })
-      } catch (error) {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
+      } else {
+        this.setState({msg: 'As senhas informadas não conferem!'})
+        return null
       }
+      await this.props.add(usuarioCadastro)
+      setTimeout(() => {
+        this.limpar()
+      }, 2000);
+
     } else {
       delete usuarioCadastro.confsenha;
       delete usuarioCadastro.senha;
@@ -98,25 +59,20 @@ class Usuarios extends Component {
       delete usuarioCadastro.deleted;
       delete usuarioCadastro.__v;
 
-      fetch(`http://localhost:5000/users/${usuarioID}`, {
-        method: 'PATCH',
-        headers: {
-          authorization: localStorage.getItem('auth-token')
-        },
-        body: JSON.stringify(usuarioCadastro)
-      }).then(response => {
-        return response.json()
-      }).then(result => {
-        if (result.error) {
-          throw new Error(`Não foi possivel atualizar o usuário - ${result.message}`)
-        }
-        this.setState({ msg: { className: "alert alert-success", texto: 'Usuário atualizado com sucesso!' } })
-        setTimeout(() => {
-          this.limpar()
-        }, 2000);
-      }).catch(error => {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-      })
+      await this.props.patch(usuarioID, usuarioCadastro)
+      setTimeout(() => {
+        this.limpar()
+      }, 2000);
+    }
+  }
+
+  async excluir(usuario) {
+    let yesNo = window.confirm('Deseja realmente excluir este usuário?')
+    if (yesNo) {
+      await this.props.delete(usuario._id)
+      setTimeout(() => {
+        this.limpar()
+      }, 1000);
     }
   }
 
@@ -128,37 +84,37 @@ class Usuarios extends Component {
     })
   }
 
-  excluir(usuario) {
-    let yesNo = window.confirm('Deseja realmente excluir este usuário?')
-    if (yesNo) {
-      fetch(`http://localhost:5000/users/${usuario._id}`, {
-        method: 'DELETE',
-        headers: {
-          authorization: localStorage.getItem('auth-token')
-        }
-      }).then(response => {
-        return response.json()
-      }).then(result => {
-        if (result.error) {
-          throw new Error(`Não foi possivel excluir o usuário - ${result.message}`)
-        }
-        this.limpar()
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })
-      }).catch(error => {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-      })
-    }
+  limpar() {
+    this.setState({
+      msg: '',
+      usuario: {
+        _id: '',
+        nome: '',
+        ccusto: '',
+        setor: '',
+        filial: '',
+        email: '',
+        senha: '',
+        confsenha: '',
+        admin: false
+      }
+    })
+
+    this.props.getAll()
+  }
+
+
+  componentWillMount() {
+    this.limpar()
   }
 
   render() {
     return (
       <section>
-        {!!this.state.msg.texto && <div className={this.state.msg.className} role="alert">{this.state.msg.texto}</div>}
+        {!!this.props.error && <div className='alert alert-danger' role="alert">{this.props.error.message}</div>}
+        {!!this.props.success && <div className='alert alert-success' role="alert">Usuário cadastrado com sucesso!</div>}
         <h2 className='h2 mt-4'>Controle de Usuários</h2>
-        <UsuariosForm handleSubmit={this.salvar} handleClear={this.limpar} handleInputChange={this.handleInputChange} usuario={this.state.usuario} />
+        <UsuariosForm handleSubmit={this.salvar} handleClear={this.limpar} handleInputChange={this.handleInputChange} usuario={this.state.usuario} msg={this.state.msg}/>
         <UsuariosTable usuarios={this.props.usuarios} handleChange={this.alterar} handleDelete={this.excluir} ></UsuariosTable>
         {!!this.props.usuarios.loading && (
           <div class="d-flex justify-content-center">
@@ -171,4 +127,19 @@ class Usuarios extends Component {
   }
 }
 
-export default Usuarios
+const mapStateToProps = (state) => ({
+  usuarios: state.usuarios.lista,
+  error: state.usuarios.error,
+  success: state.usuarios.success
+})
+
+const mapDispatchToProps = dispatch => ({
+  add: usuario => dispatch(action.postUsuario(usuario)),
+  get: id => dispatch(action.getUsuario(id)),
+  getAll: () => dispatch(usuarioThunks.getAll()),
+  patch: (id, usuario) => dispatch(action.patchUsuario(id, usuario)),
+  delete: id => dispatch(action.deleteUsuario(id)),
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Usuarios)

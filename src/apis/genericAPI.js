@@ -1,8 +1,8 @@
 const TOKEN = localStorage.getItem('auth-token');
-const URL_BASE = 'http://localhost:5000/users';
+const URL_BASE = 'http://localhost:5000';
 
-export function getAllUsuarios(){
-  return fetch(URL_BASE, {
+export function getAllObjects(BASE_URL){
+  return fetch(URL_BASE + BASE_URL, {
     method: 'GET',
     headers: {
       authorization: TOKEN
@@ -12,8 +12,8 @@ export function getAllUsuarios(){
   })
 }
 
-export function getUsuario(id){
-  return fetch(`${URL_BASE}/${id}`, {
+export function getObject(BASE_URL, id){
+  return fetch(`${URL_BASE+BASE_URL}/${id}`, {
     method: 'GET',
     headers: {
       authorization: TOKEN
@@ -23,32 +23,32 @@ export function getUsuario(id){
   })
 }
 
-export function postUsuario(usuario){
-  return fetch(URL_BASE, {
+export function postObject(BASE_URL, object){
+  return fetch(URL_BASE+BASE_URL, {
     method: 'POST',
     headers: {
       authorization: TOKEN
     },
-    body: JSON.stringify(usuario)
+    body: JSON.stringify(object)
   }).then(response => {
     return response.json()
   })
 }
 
-export function patchUsuario(id, usuario){
-  return fetch(`${URL_BASE}/${id}`, {
+export function patchObject(BASE_URL, id, object){
+  return fetch(`${URL_BASE+BASE_URL}/${id}`, {
     method: 'PATCH',
     headers: {
       authorization: TOKEN
     },
-    body: JSON.stringify(usuario)
+    body: JSON.stringify(object)
   }).then(response => {
     return response.json()
   })
 }
 
-export function deleteUsuario(id){
-  return fetch(`${URL_BASE}/${id}`, {
+export function deleteObject(BASE_URL, id){
+  return fetch(`${URL_BASE+BASE_URL}/${id}`, {
     method: 'DELETE',
     headers: {
       authorization: TOKEN

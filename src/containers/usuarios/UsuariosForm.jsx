@@ -33,9 +33,11 @@ const UsuariosForm = (props) => {
         </div>
         <div className='form-group'>
           <input className='form-control' disabled={usuario._id} name='senha' placeholder='Senha' type='password' value={usuario.senha} onChange={props.handleInputChange} />
+          {!!props.msg.length && <p class="text-danger">{props.msg}</p>}
         </div>
         <div className='form-group'>
           <input className='form-control' disabled={usuario._id} name='confsenha' placeholder='Confirmação de Senha' type='password' value={usuario.confsenha} onChange={props.handleInputChange} />
+          {!!props.msg.length && <p class="text-danger">{props.msg}</p>}
         </div>
         <div className='form-group'>
           <label htmlFor="admin">O usuário é administrador?</label>

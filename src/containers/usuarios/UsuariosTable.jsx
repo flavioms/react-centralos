@@ -16,7 +16,7 @@ const UsuariosTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.usuarios.data.map((usuario, index) => {
+        {props.usuarios.map((usuario, index) => {
           return (
             <tr key={usuario._id}>
               <td className='text-nowrap'>{index}</td>
