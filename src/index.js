@@ -7,7 +7,7 @@ import App from './containers/App';
 import Login from './containers/usuarios/Login';
 import Home from './containers/Home';
 import Cadastro from './containers/usuarios/Cadastro';
-import ChamadosSetor from './containers/chamados/ChamadosSetor';
+import ChamadosAbrir from './containers/chamados/ChamadosAbrir';
 import ChamadosAtender from './containers/chamados/ChamadosAtender';
 import Usuarios from './containers/usuarios/Usuarios';
 import Modulos from './containers/modulos/Modulos';
@@ -23,7 +23,7 @@ ReactDOM.render(
       <App>
           <Provider store={store}>
             <PrivateRoute path='/home' component={Home} />
-            <PrivateRoute path='/chamadosSetor' component={ChamadosSetor}/>
+            <PrivateRoute path='/chamadosAbrir' component={ChamadosAbrir}/>
             <PrivateRoute path='/chamadosAtender' component={ChamadosAtender}/>
             <PrivateRoute path='/usuarios' component={Usuarios}/>
             <PrivateRoute path='/categorias' component={Categorias}/>

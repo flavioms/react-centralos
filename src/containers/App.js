@@ -34,7 +34,7 @@ class App extends Component {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item"><Link to='/' className="nav-link">Home</Link></li>
-                <li className="nav-item"><Link to='/chamadosSetor' className="nav-link">Chamados Do Setor</Link></li>
+                <li className="nav-item"><Link to='/chamadosAbrir' className="nav-link">Abrir Chamados</Link></li>
                 <li className="nav-item"><Link to='/chamadosAtender' className="nav-link">Chamados Para Atender</Link></li>
                 <li className="nav-item"><Link to='/usuarios' className="nav-link">Usuários</Link></li>
                 <li className="nav-item dropdown">
