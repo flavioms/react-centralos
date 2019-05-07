@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route, BrowserRouter, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
+import {ConnectedRouter} from 'connected-react-router';
 import {Provider} from 'react-redux';
+
 import store from './store';
+import history from './routes/history';
 import App from './containers/App';
 import Login from './containers/usuarios/Login';
 import Home from './containers/Home';
@@ -15,7 +18,7 @@ import Categorias from './containers/categorias/Categorias';
 import PrivateRoute from './components/PrivateRoute';
 
 ReactDOM.render(
-  <BrowserRouter >
+  <ConnectedRouter history={history}>
     <Switch>
       <Route path='/' exact={true} component={Login} />
       <Route path='/login' component={Login} />
@@ -31,6 +34,6 @@ ReactDOM.render(
           </Provider>
       </App>
     </Switch>
-  </BrowserRouter>, 
+  </ConnectedRouter>, 
   document.getElementById('root')
 );
