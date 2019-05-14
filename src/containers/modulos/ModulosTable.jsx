@@ -13,7 +13,7 @@ const ModulosTable = (props) => {
       </thead>
       <tbody>
         {props.modulos.map((modulo, index) => (
-          <tr>
+          <tr key={modulo._id}>
             <td>{index}</td>
             <td>{modulo.sigla}</td>
             <td>{modulo.nome}</td>

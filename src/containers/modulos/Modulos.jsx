@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as action from '../../actions/modulos';
+import { moduloThunks } from '../../thunks/modulos';
 import ModuloForm from './ModulosForm';
 import ModuloTable from './ModulosTable';
 
-export default class Modulos extends Component {
+class Modulos extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -20,7 +23,8 @@ export default class Modulos extends Component {
         sigla: '',
         nome: ''
       }
-    }
+    };
+    this.baseState = this.state;
   }
 
   componentDidMount() {
@@ -28,84 +32,27 @@ export default class Modulos extends Component {
   }
 
   limpar() {
-    fetch('http://localhost:5000/modulos', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('auth-token')
-      }
-    })
-      .then(response => {
-        return response.json()
-      }).then(result => {
-        this.setState({
-          listaModulos: result,
-          msg: {
-            texto: '',
-          },
-          modulo: {
-            _id: '',
-            sigla: '',
-            nome: ''
-          }
-        })
-      })
+    this.setState(this.baseState)
+    this.props.getAll()
   }
 
-  salvar(e) {
+  async salvar(e) {
     e.preventDefault();
     let moduloCadastro = this.state.modulo;
     let moduloID = moduloCadastro._id;
 
     if (!moduloID) {
       delete moduloCadastro._id;
-
-      fetch('http://localhost:5000/modulos', {
-        method: 'POST',
-        body: JSON.stringify(moduloCadastro),
-        headers: {
-          authorization: localStorage.getItem('auth-token')
-        }
-      }).then(response => {
-        return response.json()
-      }).then(result => {
-        if (result.error) {
-          throw new Error(`Não foi possivel cadastrar o módulo - ${result.message}`)
-        }
-        this.setState({ msg: { className: "alert alert-success", texto: 'Módulo cadastrado com sucesso!' } })
-        setTimeout(() => {
-          this.limpar()
-        }, 2000);
-      }).catch(error => {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-      })
-
+      await this.props.add(moduloCadastro)
     } else {
       delete moduloCadastro._id;
       delete moduloCadastro.deleted;
       delete moduloCadastro.__v;
-
-      fetch(`http://localhost:5000/modulos/${moduloID}`, {
-        method: 'PATCH',
-        headers: {
-          authorization: localStorage.getItem('auth-token')
-        },
-        body: JSON.stringify(moduloCadastro)
-      }).then(response => {
-        return response.json()
-      }).then(result => {
-        if (result.error) {
-          throw new Error(`Não foi possivel atualizar o módulo - ${result.message}`)
-        }
-        this.setState({ msg: { className: "alert alert-success", texto: 'Módulo atualizado com sucesso!' } })
-        setTimeout(() => {
-          this.limpar()
-        }, 2000);
-      }).catch(error => {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-      })
-
+      await this.props.patch(moduloID, moduloCadastro)
     }
-
+    setTimeout(() => {
+      this.limpar()
+    }, 1000);
   }
 
   alterar(modulo) {
@@ -119,25 +66,10 @@ export default class Modulos extends Component {
   excluir(modulo) {
     let yesNo = window.confirm('Deseja realmente excluir este módulo?')
     if(yesNo){
-      fetch(`http://localhost:5000/modulos/${modulo._id}`, {
-        method: 'DELETE',
-        headers: {
-          authorization: localStorage.getItem('auth-token')
-        }
-      }).then(response => {
-        return response.json()
-      }).then(result => {
-        if (result.error) {
-          throw new Error(`Não foi possivel excluir o módulo - ${result.message}`)
-        }
+      this.props.delete(modulo._id)
+      setTimeout(() => {
         this.limpar()
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })
-      }).catch(error => {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-      })
+      }, 1000);
     }
   }
 
@@ -150,11 +82,27 @@ export default class Modulos extends Component {
   render() {
     return (
       <section>
-        {!!this.state.msg.texto && <div className={this.state.msg.className} role="alert">{this.state.msg.texto}</div>}
+        {!!this.props.error && <div className='alert alert-danger' role="alert">{this.props.error.message}</div>}
+        {!!this.props.success && <div className='alert alert-success' role="alert">Categoria cadastrada com sucesso!</div>}
         <h2 className='h2 mt-4'>Controle de Módulos</h2>
         <ModuloForm handleSubmit={this.salvar} handleClear={this.limpar} handleInputChange={this.handleInputChange} modulo={this.state.modulo} />
-        <ModuloTable modulos={this.state.listaModulos} handleChange={this.alterar} handleDelete={this.excluir} />
+        <ModuloTable modulos={this.props.modulos} handleChange={this.alterar} handleDelete={this.excluir} />
       </section>
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  modulos: state.modulos.lista,
+  error: state.modulos.error,
+  success: state.modulos.success
+})
+
+const mapDispatchToProps = dispatch => ({
+  add: modulo => dispatch(action.postModulo(modulo)),
+  patch: (id, modulo) => dispatch(action.patchModulo(id, modulo)),
+  getAll: () => dispatch(moduloThunks.getAll()),
+  delete: id => dispatch(action.deleteModulo(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modulos)

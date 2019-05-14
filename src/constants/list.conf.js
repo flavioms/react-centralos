@@ -1,4 +1,4 @@
-const SETORES = [
+export const SETORES = [
     {nome: 'TI'},
     {nome: 'RH'},
     {nome: 'CONTABILIDADE'},
@@ -8,7 +8,7 @@ const SETORES = [
     {nome: 'FILIAL'}
 ]
 
-const FILIAIS = [
+export const FILIAIS = [
     {codigo: 'MVR', nome:'MVR - Volta Redonda'},
     {codigo: 'FRJ', nome:'FRJ - Rio de Janeiro'},
     {codigo: 'FPA', nome:'FPA - Porto do Açu'},
@@ -19,17 +19,11 @@ const FILIAIS = [
     {codigo: 'FBA', nome:'FBA - Bahia'}
 ]
 
-const STATUS = [
-    {nome: 'Encerrado'},
-    {nome: 'Em Atendimento'},
-    {nome: 'Aguardando Atendimento'},
-    {nome: 'Aguardando Fornecedor'},
-    {nome: 'Aguardando Totvs'},
-    {nome: 'Aguardando Usuário'}
-]
-
-module.exports = Object.freeze({
-    SETORES: SETORES,
-    FILIAIS: FILIAIS,
-    STATUS: STATUS
-});
+export const STATUS = {
+    ENCERRADO: 'Encerrado',
+    ATENDIMENTO: 'Em Atendimento',
+    AGUARDANDO_ATENDIMENTO: 'Aguardando Atendimento',
+    AGUARDANDO_FORNECEDOR: 'Aguardando Fornecedor',
+    AGUARDANDO_TOTVS: 'Aguardando Totvs',
+    AGUARDANDO_USUARIO: 'Aguardando Usuário',
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import ListConf from '../../constants/ListConf';
+import {SETORES, FILIAIS} from '../../constants/list.conf';
 
 const UsuariosForm = (props) => {
   const usuario = props.usuario;
@@ -15,7 +15,7 @@ const UsuariosForm = (props) => {
         <div className='form-group'>
           <select className='form-control' name='setor' value={usuario.setor} onChange={props.handleInputChange}>
             <option value='' disabled defaultValue>Escolha seu Setor!</option>
-            {ListConf.SETORES.map((setor, index) => (
+            {SETORES.map((setor, index) => (
               <option key={index} value={setor.nome}>{setor.nome}</option>
             ))}
           </select>
@@ -23,7 +23,7 @@ const UsuariosForm = (props) => {
         <div className='form-group'>
           <select className='form-control' name='filial' value={usuario.filial} onChange={props.handleInputChange}>
             <option value='' disabled defaultValue>Escolha sua Filial!</option>
-            {ListConf.FILIAIS.map(filial => (
+            {FILIAIS.map(filial => (
               <option key={filial.codigo} value={filial.codigo}>{filial.nome}</option>
             ))}
           </select>

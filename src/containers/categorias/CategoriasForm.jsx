@@ -7,7 +7,7 @@ const CategoriasForm = props => {
           <input  className='form-control' name='nome' placeholder='Nome' type='text' value={props.categoria.nome} onChange={props.handleInputChange}/>
         </div>
         <div className='form-group'>
-          <label htmlfor='sla'>SLA - <small>Em horas</small>:</label>
+          <label htmlFor='sla'>SLA - <small>Em horas</small>:</label>
           <input  className='form-control' name='sla' id='sla' type='time' value={props.categoria.sla} onChange={props.handleInputChange}/>
         </div>
         <input className='btn btn-primary' type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" />

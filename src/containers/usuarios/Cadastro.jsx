@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import ListConf from '../../constants/ListConf';
+import {SETORES, FILIAIS} from '../../constants/list.conf';
 
 export default class Cadastro extends Component {
 
@@ -68,7 +68,7 @@ export default class Cadastro extends Component {
           <div className='form-group'>
             <select className='form-control' name='setor' value={usuario.setor} onChange={this.handleInputChange}>
               <option value='' disabled selected>Escolha seu Setor!</option>
-              {ListConf.SETORES.map(setor => (
+              {SETORES.map(setor => (
                 <option value={setor.codigo}>{setor.nome}</option>
               ))}
             </select>
@@ -76,9 +76,9 @@ export default class Cadastro extends Component {
           <div className='form-group'>
             <select className='form-control' name='filial' value={usuario.filial} onChange={this.handleInputChange}>
               <option value='' disabled selected>Escolha sua Filial!</option>
-              {ListConf.FILIAIS.map(filial => (
-                <option value={filial.nome}>{filial.nome}</option>
-              ))}
+              {FILIAIS.map(filial => (
+              <option key={filial.codigo} value={filial.codigo}>{filial.nome}</option>
+            ))}
             </select>
           </div>
           <div className='form-group'>

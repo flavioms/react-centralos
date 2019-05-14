@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as action from '../actions/auth';
 
 class App extends Component {
   constructor(props){
@@ -7,20 +9,16 @@ class App extends Component {
     this.sair = this.sair.bind(this);
     this.state = {
       auth: true
-    }
-    
+    }  
   }
-  
 
   sair(e){
     e.preventDefault();
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem('user-info');
-    this.setState({auth: false})
+    this.props.logout();
   }
 
   render() {
-      if(!this.state.auth || !localStorage.getItem('auth-token')){
+      if(!localStorage.getItem('auth-token')){
         return(<Redirect to='/login'></Redirect>)
       }
       return (
@@ -33,9 +31,9 @@ class App extends Component {
  
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav mr-auto">
-                <li className="nav-item"><Link to='/' className="nav-link">Home</Link></li>
+                <li className="nav-item"><Link to='/home' className="nav-link">Home</Link></li>
                 <li className="nav-item"><Link to='/chamadosAbrir' className="nav-link">Abrir Chamados</Link></li>
-                <li className="nav-item"><Link to='/chamadosAtender' className="nav-link">Chamados Para Atender</Link></li>
+                <li className="nav-item"><Link to='/chamadosAtender' className="nav-link">Atender Chamados</Link></li>
                 <li className="nav-item"><Link to='/usuarios' className="nav-link">Usuários</Link></li>
                 <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,7 +51,6 @@ class App extends Component {
             </div>
           </nav>
 
-
           <div className='container'>
             <div className='row'>
               <div className='w-100'>
@@ -66,4 +63,8 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(action.logout())
+})
+
+export default connect(null, mapDispatchToProps)(App)

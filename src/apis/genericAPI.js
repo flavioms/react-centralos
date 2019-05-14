@@ -47,6 +47,20 @@ export function patchObject(BASE_URL, id, object){
   })
 }
 
+
+export function postInteract(BASE_URL, id, object){
+  return fetch(`${URL_BASE+BASE_URL}/${id}`, {
+    method: 'POST',
+    headers: {
+      authorization: TOKEN
+    },
+    body: JSON.stringify(object)
+  }).then(response => {
+    return response.json()
+  })
+}
+
+
 export function deleteObject(BASE_URL, id){
   return fetch(`${URL_BASE+BASE_URL}/${id}`, {
     method: 'DELETE',

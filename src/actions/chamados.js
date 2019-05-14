@@ -1,15 +1,14 @@
 import * as API from '../apis/genericAPI';
 import * as type from '../constants/chamados';
+import { push } from 'connected-react-router';
+
 const BASE_URL = '/ticket'
 
 export function postChamado(chamado) {
   return dispatch => {
     API.postObject(BASE_URL, chamado).then(result => {
       if (!result.error) {
-        dispatch({
-          type: type.CHAMADO_ADD,
-          payload: { result }
-        })
+        dispatch(push(`/chamado/${result._id}`))
       } else {
         dispatch({
           type: type.CHAMADO_ERROR,
@@ -81,3 +80,23 @@ export function getAllChamados(chamados) {
   }
 }
 
+
+export function postInteract(id, interacoes) {
+  return dispatch => {
+    API.postInteract(BASE_URL, id, interacoes).then(result => {
+      if (!result.error) {
+        console.log('RETORNO DO BANCO: ', result)
+        dispatch({
+          type: type.CHAMADO_ADD_INTERACT,
+          payload: { result }
+        })
+      } else {
+        console.log('DEU RUIM: ', result)
+        dispatch({
+          type: type.CHAMADO_ERROR,
+          payload: { result }
+        })
+      }
+    })
+  }
+}

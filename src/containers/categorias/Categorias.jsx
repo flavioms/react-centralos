@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as action from '../../actions/categorias';
+import { categoriaThunks } from '../../thunks/categorias';
 import CategoriasForm from './CategoriasForm';
 import CategoriasTable from './CategoriasTable';
 
-export default class Categorias extends Component {
+class Categorias extends Component {
   constructor(props){
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -21,6 +24,7 @@ export default class Categorias extends Component {
         sla: ''
       }
     }
+    this.baseState = this.state
   }
 
   componentDidMount() {
@@ -28,84 +32,27 @@ export default class Categorias extends Component {
   }
 
   limpar() {
-    fetch('http://localhost:5000/categorias', {
-      method: 'GET',
-      headers: {
-        authorization: localStorage.getItem('auth-token')
-      }
-    })
-      .then(response => {
-        return response.json()
-      }).then(result => {
-        this.setState({
-          listaCategorias: result,
-          msg: {
-            texto: '',
-          },
-          categoria: {
-            _id: '',
-            nome: '',
-            sla: ''
-          }
-        })
-      })
+    this.setState(this.baseState)
+    this.props.getAll()
   }
 
-  salvar(e) {
+  async salvar(e) {
     e.preventDefault();
     let categoriaCadastro = this.state.categoria;
     let categoriaID = categoriaCadastro._id;
 
     if (!categoriaID) {
       delete categoriaCadastro._id;
-
-      fetch('http://localhost:5000/categorias', {
-        method: 'POST',
-        body: JSON.stringify(categoriaCadastro),
-        headers: {
-          authorization: localStorage.getItem('auth-token')
-        }
-      }).then(response => {
-        return response.json()
-      }).then(result => {
-        if (result.error) {
-          throw new Error(`Não foi possivel cadastrar a categoria - ${result.message}`)
-        }
-        this.setState({ msg: { className: "alert alert-success", texto: 'Categoria cadastrada com sucesso!' } })
-        setTimeout(() => {
-          this.limpar()
-        }, 2000);
-      }).catch(error => {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-      })
-
+      await this.props.add(categoriaCadastro)
     } else {
       delete categoriaCadastro._id;
       delete categoriaCadastro.deleted;
       delete categoriaCadastro.__v;
-
-      fetch(`http://localhost:5000/categorias/${categoriaID}`, {
-        method: 'PATCH',
-        headers: {
-          authorization: localStorage.getItem('auth-token')
-        },
-        body: JSON.stringify(categoriaCadastro)
-      }).then(response => {
-        return response.json()
-      }).then(result => {
-        if (result.error) {
-          throw new Error(`Não foi possivel atualizar a categoria - ${result.message}`)
-        }
-        this.setState({ msg: { className: "alert alert-success", texto: 'Categoria atualizada com sucesso!' } })
-        setTimeout(() => {
-          this.limpar()
-        }, 2000);
-      }).catch(error => {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-      })
-
+      await this.props.patch(categoriaID, categoriaCadastro)
     }
-
+    setTimeout(() => {
+      this.limpar()
+    }, 1000);
   }
 
   alterar(categoria) {
@@ -119,25 +66,10 @@ export default class Categorias extends Component {
   excluir(categoria) {
     let yesNo = window.confirm('Deseja realmente excluir esta categoria?')
     if(yesNo){
-      fetch(`http://localhost:5000/categorias/${categoria._id}`, {
-        method: 'DELETE',
-        headers: {
-          authorization: localStorage.getItem('auth-token')
-        }
-      }).then(response => {
-        return response.json()
-      }).then(result => {
-        if (result.error) {
-          throw new Error(`Não foi possivel excluir a categoria - ${result.message}`)
-        }
+      this.props.delete(categoria._id)
+      setTimeout(() => {
         this.limpar()
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })
-      }).catch(error => {
-        this.setState({ msg: { className: "alert alert-danger", texto: error.message } })
-      })
+      }, 1000);
     }
   }
   
@@ -150,11 +82,27 @@ export default class Categorias extends Component {
   render(){
     return(
       <section>
-        {!!this.state.msg.texto && <div className={this.state.msg.className} role="alert">{this.state.msg.texto}</div>}
+        {!!this.props.error && <div className='alert alert-danger' role="alert">{this.props.error.message}</div>}
+        {!!this.props.success && <div className='alert alert-success' role="alert">Categoria cadastrada com sucesso!</div>}
         <h2 className='h2 mt-4'>Controle de Categorias</h2>
         <CategoriasForm handleSubmit={this.salvar} handleClear={this.limpar} handleInputChange={this.handleInputChange} categoria={this.state.categoria}/>
-        <CategoriasTable categorias={this.state.listaCategorias} handleChange={this.alterar} handleDelete={this.excluir}/>
+        <CategoriasTable categorias={this.props.categorias} handleChange={this.alterar} handleDelete={this.excluir}/>
       </section>
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  categorias: state.categorias.lista,
+  error: state.categorias.error,
+  success: state.categorias.success
+})
+
+const mapDispatchToProps = dispatch => ({
+  add: categoria => dispatch(action.postCategoria(categoria)),
+  patch: (id, categoria) => dispatch(action.patchCategoria(id, categoria)),
+  getAll: () => dispatch(categoriaThunks.getAll()),
+  delete: id => dispatch(action.deleteCategoria(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Categorias)
