@@ -1,14 +1,14 @@
 import * as api from '../apis/genericAPI';
 import * as action from '../actions/chamados';
 import * as type from '../constants/chamados';
-const BASE_URL = '/ticket';
+const ROTA = '/ticket';
 
 export const chamadoThunks = {
-    getAll: () => dispatch => {
+    getAll: () => (dispatch, getState) => {
         dispatch({
             type: type.CHAMADO_ALL_REQUEST
         })
-        api.getAllObjects(BASE_URL).then(result => {
+        api.getAllObjects(getState().auth.token, ROTA).then(result => {
             if (result.error) {
                 dispatch({
                     type: type.CHAMADO_ERROR,

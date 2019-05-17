@@ -6,6 +6,7 @@ import ChamadosForm from './ChamadosForm';
 import ChamadosTable from './ChamadosTable';
 import { STATUS } from '../../constants/list.conf';
 import { push } from 'connected-react-router';
+const userInfo = JSON.parse(localStorage.getItem('user-info'))
 
 class ChamadosAbrir extends Component {
   constructor(props) {
@@ -52,7 +53,6 @@ class ChamadosAbrir extends Component {
 
   async salvar(e) {
     e.preventDefault();
-    let userInfo = JSON.parse(localStorage.getItem('user-info'))
     let usuario = {
       nome: userInfo.nome,
       setor: userInfo.setor,
@@ -76,7 +76,6 @@ class ChamadosAbrir extends Component {
 
     delete chamadoCadastro.problema;
     delete chamadoCadastro.dtEncerramento;
-    console.log(chamadoCadastro)
     await this.props.add(chamadoCadastro)
   }
 
@@ -109,7 +108,7 @@ class ChamadosAbrir extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  chamados: state.chamados.lista.filter(ticket => ticket.setor !== ticket.usuario.setor),
+  chamados: state.chamados.lista.filter(ticket => ticket.setor !== userInfo.setor && ticket.usuario.setor === userInfo.setor),
   error: state.chamados.error,
   success: state.chamados.success
 })

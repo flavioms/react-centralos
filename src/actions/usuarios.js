@@ -1,10 +1,10 @@
 import * as API from '../apis/genericAPI';
 import * as type from '../constants/usuarios';
-const BASE_URL = '/users'
+const ROTA = '/users'
 
 export function postUsuario(usuario) {
-  return dispatch => {
-    API.postObject(BASE_URL, usuario).then(result => {
+  return (dispatch, getState) => {
+    API.postObject(getState().auth.token, ROTA, usuario).then(result => {
       if (!result.error) {
         dispatch({
           type: type.USUARIO_ADD,
@@ -21,8 +21,8 @@ export function postUsuario(usuario) {
 }
 
 export function patchUsuario(id, usuario) {
-  return dispatch => {
-    API.patchObject(BASE_URL, id, usuario).then(result => {
+  return (dispatch, getState) => {
+    API.patchObject(getState().auth.token, ROTA, id, usuario).then(result => {
       if (!result.error) {
         dispatch({
           type: type.USUARIO_UPDATE,
@@ -39,8 +39,8 @@ export function patchUsuario(id, usuario) {
 }
 
 export function deleteUsuario(id) {
-  return dispatch => {
-    API.deleteObject(BASE_URL, id).then(result => {
+  return (dispatch, getState) => {
+    API.deleteObject(getState().auth.token, ROTA, id).then(result => {
       if (!result.error) {
         dispatch({
           type: type.USUARIO_DELETE,
@@ -57,8 +57,8 @@ export function deleteUsuario(id) {
 }
 
 export function getUsuario(id) {
-  return dispatch => {
-    API.getObject(BASE_URL, id).then(result => {
+  return (dispatch, getState) => {
+    API.getObject(getState().auth.token, ROTA, id).then(result => {
       if (!result.error) {
         dispatch({
           type: type.USUARIO_DETAIL,

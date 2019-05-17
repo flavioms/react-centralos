@@ -2,11 +2,11 @@ import * as API from '../apis/genericAPI';
 import * as type from '../constants/chamados';
 import { push } from 'connected-react-router';
 
-const BASE_URL = '/ticket'
+const ROTA = '/ticket'
 
 export function postChamado(chamado) {
-  return dispatch => {
-    API.postObject(BASE_URL, chamado).then(result => {
+  return (dispatch, getState) => {
+    API.postObject(getState().auth.token, ROTA, chamado).then(result => {
       if (!result.error) {
         dispatch(push(`/chamado/${result._id}`))
       } else {
@@ -20,8 +20,8 @@ export function postChamado(chamado) {
 }
 
 export function patchChamado(id, chamado) {
-  return dispatch => {
-    API.patchObject(BASE_URL, id, chamado).then(result => {
+  return (dispatch, getState) => {
+    API.patchObject(getState().auth.token, ROTA, id, chamado).then(result => {
       if (!result.error) {
         dispatch({
           type: type.CHAMADO_UPDATE,
@@ -38,8 +38,8 @@ export function patchChamado(id, chamado) {
 }
 
 export function deleteChamado(id) {
-  return dispatch => {
-    API.deleteObject(BASE_URL, id).then(result => {
+  return (dispatch, getState) => {
+    API.deleteObject(getState().auth.token, ROTA, id).then(result => {
       if (!result.error) {
         dispatch({
           type: type.CHAMADO_DELETE,
@@ -56,8 +56,8 @@ export function deleteChamado(id) {
 }
 
 export function getChamado(id) {
-  return dispatch => {
-    API.getObject(BASE_URL, id).then(result => {
+  return (dispatch, getState) => {
+    API.getObject(getState().auth.token, ROTA, id).then(result => {
       if (!result.error) {
         dispatch({
           type: type.CHAMADO_DETAIL,
@@ -82,8 +82,8 @@ export function getAllChamados(chamados) {
 
 
 export function postInteract(id, interacoes) {
-  return dispatch => {
-    API.postInteract(BASE_URL, id, interacoes).then(result => {
+  return (dispatch, getState) => {
+    API.postInteract(getState().auth.token, ROTA, id, interacoes).then(result => {
       if (!result.error) {
         console.log('RETORNO DO BANCO: ', result)
         dispatch({

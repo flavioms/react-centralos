@@ -1,33 +1,33 @@
-const TOKEN = localStorage.getItem('auth-token');
+const TOKEN_LOCAL = localStorage.getItem('auth-token');
 const URL_BASE = 'http://localhost:5000';
 
-export function getAllObjects(BASE_URL){
-  return fetch(URL_BASE + BASE_URL, {
+export function getAllObjects(TOKEN, ROTA){
+  return fetch(URL_BASE + ROTA, {
     method: 'GET',
     headers: {
-      authorization: TOKEN
+      authorization: TOKEN ? TOKEN : TOKEN_LOCAL
     },
   }).then(response => {
     return response.json()
   })
 }
 
-export function getObject(BASE_URL, id){
-  return fetch(`${URL_BASE+BASE_URL}/${id}`, {
+export function getObject(TOKEN, ROTA, id){
+  return fetch(`${URL_BASE+ROTA}/${id}`, {
     method: 'GET',
     headers: {
-      authorization: TOKEN
+      authorization: TOKEN ? TOKEN : TOKEN_LOCAL
     },
   }).then(response => {
     return response.json()
   })
 }
 
-export function postObject(BASE_URL, object){
-  return fetch(URL_BASE+BASE_URL, {
+export function postObject(TOKEN, ROTA, object){
+  return fetch(URL_BASE+ROTA, {
     method: 'POST',
     headers: {
-      authorization: TOKEN
+      authorization: TOKEN ? TOKEN : TOKEN_LOCAL
     },
     body: JSON.stringify(object)
   }).then(response => {
@@ -35,11 +35,11 @@ export function postObject(BASE_URL, object){
   })
 }
 
-export function patchObject(BASE_URL, id, object){
-  return fetch(`${URL_BASE+BASE_URL}/${id}`, {
+export function patchObject(TOKEN, ROTA, id, object){
+  return fetch(`${URL_BASE+ROTA}/${id}`, {
     method: 'PATCH',
     headers: {
-      authorization: TOKEN
+      authorization: TOKEN ? TOKEN : TOKEN_LOCAL
     },
     body: JSON.stringify(object)
   }).then(response => {
@@ -48,11 +48,11 @@ export function patchObject(BASE_URL, id, object){
 }
 
 
-export function postInteract(BASE_URL, id, object){
-  return fetch(`${URL_BASE+BASE_URL}/${id}`, {
+export function postInteract(TOKEN, ROTA, id, object){
+  return fetch(`${URL_BASE+ROTA}/${id}`, {
     method: 'POST',
     headers: {
-      authorization: TOKEN
+      authorization: TOKEN ? TOKEN : TOKEN_LOCAL
     },
     body: JSON.stringify(object)
   }).then(response => {
@@ -61,11 +61,11 @@ export function postInteract(BASE_URL, id, object){
 }
 
 
-export function deleteObject(BASE_URL, id){
-  return fetch(`${URL_BASE+BASE_URL}/${id}`, {
+export function deleteObject(TOKEN, ROTA, id){
+  return fetch(`${URL_BASE+ROTA}/${id}`, {
     method: 'DELETE',
     headers: {
-      authorization: TOKEN
+      authorization: TOKEN ? TOKEN : TOKEN_LOCAL
     },
   }).then(response => {
     return response.json()

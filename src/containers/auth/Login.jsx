@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as action from '../../actions/auth';
+import { push } from 'connected-react-router';
 
 class Login extends Component {
   constructor(props) {
@@ -24,6 +25,12 @@ class Login extends Component {
     this.setState({ usuario })
   }
 
+  componentWillMount(){
+    if(localStorage.getItem('auth-token')){
+      this.props.redirect()
+    }
+  }
+
   async login(e) {
     e.preventDefault();
     await this.props.login(this.state.usuario)
@@ -35,7 +42,7 @@ class Login extends Component {
         <form className="form-signin" onSubmit={this.login}>
           <h1 className="h3 mb-3 font-weight-normal">Entrar no sistema</h1>
           <label htmlFor="email" className="sr-only">E-mail</label>
-          <input type="email" className="form-control" placeholder="Endereço de e-mail" name="email" id="email" value={this.state.usuario.email} onChange={this.handleInputChange} required autofocus />
+          <input type="email" className="form-control" placeholder="Endereço de e-mail" name="email" id="email" value={this.state.usuario.email} onChange={this.handleInputChange} required autoFocus />
           <label htmlFor="senha" className="sr-only">Senha</label>
           <input type="password" className="form-control" placeholder="Senha" name="senha" id="senha" value={this.state.usuario.senha} onChange={this.handleInputChange} required />
           <button className="btn btn-primary" type="submit">Entrar</button>
@@ -52,7 +59,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  login: usuario => dispatch(action.login(usuario))
+  login: usuario => dispatch(action.login(usuario)),
+  redirect: () => dispatch(push(`/home`))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

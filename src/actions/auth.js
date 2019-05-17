@@ -3,14 +3,15 @@ import * as type from '../constants/auth';
 import { push } from 'connected-react-router';
 import jwtDecode from 'jwt-decode';
 
-const BASE_URL = '/login'
+const ROTA = '/login'
 
 export function login(usuario) {
     return dispatch => {
-        API.postObject(BASE_URL, usuario).then(result => {
+        API.postObject(null, ROTA, usuario).then(result => {
             if (!result.error) {
                 localStorage.setItem('auth-token', result.token);
                 localStorage.setItem('user-info', JSON.stringify(jwtDecode(result.token)))
+                dispatch({type: type.AUTH_LOGIN, payload: result.token })
                 dispatch(push(`/home`))
             } else {
                 dispatch({

@@ -1,11 +1,11 @@
 import * as API from '../apis/genericAPI';
 import * as type from '../constants/categorias';
 
-const BASE_URL = '/categorias'
+const ROTA = '/categorias'
 
 export function postCategoria(categoria) {
-  return dispatch => {
-    API.postObject(BASE_URL, categoria).then(result => {
+  return (dispatch, getState) => {
+    API.postObject(getState().auth.token, ROTA, categoria).then(result => {
       if (!result.error) {
         dispatch({
           type: type.CATEGORIA_ADD,
@@ -22,8 +22,8 @@ export function postCategoria(categoria) {
 }
 
 export function patchCategoria(id, categoria) {
-  return dispatch => {
-    API.patchObject(BASE_URL, id, categoria).then(result => {
+  return (dispatch, getState) => {
+    API.patchObject(getState().auth.token, ROTA, id, categoria).then(result => {
       if (!result.error) {
         dispatch({
           type: type.CATEGORIA_UPDATE,
@@ -40,8 +40,8 @@ export function patchCategoria(id, categoria) {
 }
 
 export function deleteCategoria(id) {
-  return dispatch => {
-    API.deleteObject(BASE_URL, id).then(result => {
+  return (dispatch, getState) => {
+    API.deleteObject(getState().auth.token, ROTA, id).then(result => {
       if (!result.error) {
         dispatch({
           type: type.CATEGORIA_DELETE,
@@ -58,8 +58,8 @@ export function deleteCategoria(id) {
 }
 
 export function getCategoria(id) {
-  return dispatch => {
-    API.getObject(BASE_URL, id).then(result => {
+  return (dispatch, getState) => {
+    API.getObject(getState().auth.token, ROTA, id).then(result => {
       if (!result.error) {
         dispatch({
           type: type.CATEGORIA_DETAIL,

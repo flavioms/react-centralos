@@ -1,11 +1,11 @@
 import * as API from '../apis/genericAPI';
 import * as type from '../constants/modulos';
 
-const BASE_URL = '/modulos'
+const ROTA = '/modulos'
 
 export function postModulo(modulo) {
-  return dispatch => {
-    API.postObject(BASE_URL, modulo).then(result => {
+  return (dispatch, getState) => {
+    API.postObject(getState().auth.token, ROTA, modulo).then(result => {
       if (!result.error) {
         dispatch({
           type: type.MODULO_ADD,
@@ -22,8 +22,8 @@ export function postModulo(modulo) {
 }
 
 export function patchModulo(id, modulo) {
-  return dispatch => {
-    API.patchObject(BASE_URL, id, modulo).then(result => {
+  return (dispatch, getState) => {
+    API.patchObject(getState().auth.token, ROTA, id, modulo).then(result => {
       if (!result.error) {
         dispatch({
           type: type.MODULO_UPDATE,
@@ -40,8 +40,8 @@ export function patchModulo(id, modulo) {
 }
 
 export function deleteModulo(id) {
-  return dispatch => {
-    API.deleteObject(BASE_URL, id).then(result => {
+  return (dispatch, getState) => {
+    API.deleteObject(getState().auth.token, ROTA, id).then(result => {
       if (!result.error) {
         dispatch({
           type: type.MODULO_DELETE,
@@ -58,8 +58,8 @@ export function deleteModulo(id) {
 }
 
 export function getModulo(id) {
-  return dispatch => {
-    API.getObject(BASE_URL, id).then(result => {
+  return (dispatch, getState) => {
+    API.getObject(getState().auth.token, ROTA, id).then(result => {
       if (!result.error) {
         dispatch({
           type: type.MODULO_DETAIL,
