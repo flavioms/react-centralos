@@ -7,6 +7,7 @@ import { moduloThunks } from '../../thunks/modulos';
 import ChamadosForm from './ChamadosForm';
 import ChamadosTable from './ChamadosTable';
 import { push } from 'connected-react-router';
+
 const userInfo = JSON.parse(localStorage.getItem('user-info'))
 
 class ChamadosAbrir extends Component {

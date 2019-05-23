@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import * as action from '../../actions/chamados';
 import { STATUS } from '../../constants/list.conf';
+import convertDate from "../../config/moment";
+
 const userInfo = JSON.parse(localStorage.getItem('user-info'));
 
 class ChamadosInteracao extends Component {
@@ -78,8 +80,8 @@ class ChamadosInteracao extends Component {
                   </select>
                 </p>}
               {!!(userInfo.nome !== chamado.suporte || chamado.status === 'Encerrado') && <p><strong>Status: </strong>{chamado.status}</p>}
-              <p><strong>Data Abertura: </strong>{chamado.dtAbertura}</p>
-              <p><strong>Data Encerramento: </strong>{chamado.dtEncerramento}</p>
+              <p className='text-nowrap'><strong>Data Abertura: </strong>{convertDate(chamado.dtAbertura)}</p>
+              <p className='text-nowrap'><strong>Data Encerramento: </strong>{convertDate(chamado.dtEncerramento)}</p>
               <p><strong>Setor: </strong>{chamado.setor}</p>
               <p><strong>Categoria: </strong>{chamado.categoria}</p>
               {!!(chamado.categoria.toLowerCase() === 'protheus') &&
@@ -121,7 +123,7 @@ class ChamadosInteracao extends Component {
                 const classe = interacao.setor === interacao.usuario.setor ? 'card border-info mb-3 text-info' : 'card border-success mb-3 text-success'
                 return (
                   <div className={classe} key={interacao._id}>
-                    <div className="card-header bg-transparent">{`${interacao.usuario.nome} ${interacao.data}`}</div>
+                    <div className="card-header bg-transparent"><strong>{interacao.usuario.nome}</strong> - {convertDate(interacao.data)}</div>
                     <div className="card-body">
                       <p className="card-text">{interacao.texto}</p>
                     </div>

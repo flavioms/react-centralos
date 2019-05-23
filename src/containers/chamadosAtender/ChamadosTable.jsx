@@ -1,4 +1,5 @@
 import React from 'react'
+import convertDate from "../../config/moment";
 
 const ChamadosTable = (props) => {
   return (
@@ -19,7 +20,7 @@ const ChamadosTable = (props) => {
         {props.chamados.map(chamado => {
           return (
             <tr key={chamado._id}>
-              <td className='text-nowrap'>{chamado.dtAbertura}</td>
+              <td className='text-nowrap'>{convertDate(chamado.dtAbertura)}</td>
               <td>{chamado.titulo}</td>
               <td className='text-nowrap'>{chamado.categoria}</td>
               <td className='text-nowrap'>{chamado.modulo}</td>

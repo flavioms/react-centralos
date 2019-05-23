@@ -33,7 +33,6 @@ class App extends Component {
               <li className="nav-item"><Link to='/home' className="nav-link">Home</Link></li>
               <li className="nav-item"><Link to='/chamadosAbrir' className="nav-link">Abrir Chamados</Link></li>
               <li className="nav-item"><Link to='/chamadosAtender' className="nav-link">Atender Chamados</Link></li>
-              {console.log(this.props.admin)}
               {!!(this.props.admin) &&
                 <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
