@@ -11,8 +11,9 @@ const ChamadosForm = (props) => {
       <div className='form-group'>
         <select className='form-control' id='categoria' name='categoria' value={chamado.categoria} onChange={props.handleInputChange} >
           <option value='' disabled defaultValue>Escolha a categoria do chamado!</option>
-          <option value="hardware">Hardware</option>
-          <option value="protheus">Protheus</option>
+          {props.categorias.map((categoria, index) => (
+            <option key={index} value={categoria.nome}>{categoria.nome}</option>
+          ))}
         </select>
       </div>
       <div className='form-group'>
@@ -24,12 +25,14 @@ const ChamadosForm = (props) => {
         </select>
       </div>
 
-      {chamado.categoria === 'protheus' && (
+      {chamado.categoria.toLowerCase() === 'protheus' && (
         <div>
           <div className='form-group'>
             <select className='form-control' name='modulo' value={chamado.modulo} onChange={props.handleInputChange} >
               <option value='' disabled defaultValue >Escolha o módulo do sistema!</option>
-              <option value="SIGAGPE">Gestão de Pessoal</option>
+              {props.modulos.map((modulo, index) => (
+                <option key={index} value={modulo.sigla}>{modulo.nome}</option>
+              ))}
             </select>
           </div>
           <div className='form-group'>
@@ -44,7 +47,7 @@ const ChamadosForm = (props) => {
 
       <div className='form-group'>
         <label htmlFor="anexo">Adicionar anexos no chamado</label>
-        <input className='form-control-file' multiple accept='.txt,.doc,.docx,.png,.jpeg,.rar,.zip' name='anexo' id='anexo' placeholder='Anexo' type='file'/>
+        <input className='form-control-file' multiple accept='.txt,.doc,.docx,.png,.jpeg,.rar,.zip' name='anexo' id='anexo' placeholder='Anexo' type='file' />
       </div>
 
 

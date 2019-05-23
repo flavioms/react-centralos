@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import * as action from '../../actions/chamados';
+import { STATUS } from '../../constants/list.conf';
+const userInfo = JSON.parse(localStorage.getItem('user-info'));
 
 class ChamadosInteracao extends Component {
   constructor(props) {
@@ -35,7 +37,6 @@ class ChamadosInteracao extends Component {
 
   adicionarInteracao(e) {
     e.preventDefault();
-    let userInfo = JSON.parse(localStorage.getItem('user-info'))
     let interacao = this.state.interacao;
     let usuario = {
       nome: userInfo.nome,
@@ -47,6 +48,7 @@ class ChamadosInteracao extends Component {
     let interacoes = { interacoes: [interacao] }
     this.props.postInteract(this.state.idTicket, interacoes)
     this.setState({
+      status: '',
       interacao: {
         usuario: '',
         texto: '',
@@ -59,39 +61,58 @@ class ChamadosInteracao extends Component {
     const chamado = this.props.chamado;
     return (
       <>
-        <button type="button" className="btn btn-secondary btn-sm mt-3" onClick={() => {
+        <button type="button" className="btn btn-danger btn-sm mt-3" onClick={() => {
           this.props.history.goBack()
         }}>&lt; Voltar</button>
         <div className="container mt-4">
           <div className="row">
             <div className="col-4">
               <p><strong>Titulo: </strong>{chamado.titulo}</p>
-              <p><strong>Status: </strong>{chamado.status}</p>
+              {!!(userInfo.nome === chamado.suporte && chamado.status !== 'Encerrado') &&
+                <p><strong>Status: </strong>
+                  <select className="custom-select custom-select-sm">
+                    <option defaultValue >{chamado.status}</option>
+                    {STATUS.map((status, index) => (
+                      <option key={index} value={status.nome}>{status.nome}</option>
+                    ))}
+                  </select>
+                </p>}
+              {!!(userInfo.nome !== chamado.suporte || chamado.status === 'Encerrado') && <p><strong>Status: </strong>{chamado.status}</p>}
               <p><strong>Data Abertura: </strong>{chamado.dtAbertura}</p>
-              <p><strong>Data Encerramento: </strong>{chamado.dtencerramento}</p>
-              <p><strong>Categoria: </strong>{chamado.categoria}</p>
-              <p><strong>Módulo: </strong>{chamado.modulo}</p>
+              <p><strong>Data Encerramento: </strong>{chamado.dtEncerramento}</p>
               <p><strong>Setor: </strong>{chamado.setor}</p>
-              <p><strong>Ticket Totvs: </strong>{chamado.totvs}</p>
+              <p><strong>Categoria: </strong>{chamado.categoria}</p>
+              {!!(chamado.categoria.toLowerCase() === 'protheus') &&
+                <>
+                  <p><strong>Módulo: </strong>{chamado.modulo}</p>
+                  <p><strong>Ticket Totvs: </strong>{chamado.totvs}</p>
+                </>
+              }
               <p><strong>Usuário: </strong>{chamado.usuario.nome}</p>
               <p><strong>Suporte: </strong>{chamado.suporte}</p>
-              <button name="encerrar" id="encerrar" className="btn btn-primary">Encerrar Chamado</button>
+              {!!(chamado.status !== 'Encerrado') &&
+                <button name="encerrar" id="encerrar" className="btn btn-primary">Encerrar Chamado</button>
+              }
             </div>
             <div className="col-8 pb-5">
               <div className="row mx-4">
-                <h4 className='h4'>Interagir no Chamado</h4>
-                <form action="" className='input-group my-3' onSubmit={this.adicionarInteracao}>
-                  <div className="input-group mb-3">
-                    <div className="input-group">
-                      <textarea rows='3' className='form-control' name='texto' placeholder='Descrição do problema' value={this.state.interacao.texto} onChange={this.handleInputChange} />
-                    </div>
-                    <div className="custom-file mt-3">
-                      <input type="file" className="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" />
-                      <label className="custom-file-label" htmlFor="inputGroupFile01">Adicionar Anexo</label>
-                    </div>
-                  </div>
-                  <input className="btn btn-primary" type="submit" value="Enviar"></input>
-                </form>
+                {!!(chamado.status.toLowerCase() !== 'encerrado') &&
+                  <>
+                    <h4 className='h4'>Interagir no Chamado</h4>
+                    <form action="" className='input-group my-3' onSubmit={this.adicionarInteracao}>
+                      <div className="input-group mb-3">
+                        <div className="input-group">
+                          <textarea rows='3' className='form-control' name='texto' placeholder='Descrição do problema' value={this.state.interacao.texto} onChange={this.handleInputChange} />
+                        </div>
+                        <div className="custom-file mt-3">
+                          <input type="file" className="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" />
+                          <label className="custom-file-label" htmlFor="inputGroupFile01">Adicionar Anexo</label>
+                        </div>
+                      </div>
+                      <input className="btn btn-primary" type="submit" value="Enviar"></input>
+                    </form>
+                  </>
+                }
                 {!!this.props.success && <div className='alert alert-success' role="alert">Interação registrada com sucesso!</div>}
               </div>
 

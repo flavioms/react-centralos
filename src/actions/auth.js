@@ -9,9 +9,10 @@ export function login(usuario) {
     return dispatch => {
         API.postObject(null, ROTA, usuario).then(result => {
             if (!result.error) {
+                let usuario = jwtDecode(result.token);
                 localStorage.setItem('auth-token', result.token);
-                localStorage.setItem('user-info', JSON.stringify(jwtDecode(result.token)))
-                dispatch({type: type.AUTH_LOGIN, payload: result.token })
+                localStorage.setItem('user-info', JSON.stringify(usuario));
+                dispatch({type: type.AUTH_LOGIN, payload: result.token, admin: usuario.admin})
                 dispatch(push(`/home`))
             } else {
                 dispatch({

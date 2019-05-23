@@ -19,11 +19,10 @@ export const FILIAIS = [
     {codigo: 'FBA', nome:'FBA - Bahia'}
 ]
 
-export const STATUS = {
-    ENCERRADO: 'Encerrado',
-    ATENDIMENTO: 'Em Atendimento',
-    AGUARDANDO_ATENDIMENTO: 'Aguardando Atendimento',
-    AGUARDANDO_FORNECEDOR: 'Aguardando Fornecedor',
-    AGUARDANDO_TOTVS: 'Aguardando Totvs',
-    AGUARDANDO_USUARIO: 'Aguardando Usuário',
-}
+export const STATUS = [
+    {nome: 'Em Atendimento'},
+    {nome: 'Aguardando Atendimento'},
+    {nome: 'Aguardando Fornecedor'},
+    {nome: 'Aguardando Totvs'},
+    {nome: 'Aguardando Usuário'}
+]
